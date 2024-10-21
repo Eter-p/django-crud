@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.utils import timezone
 #from .models import Project, Task
-#from .forms import TaskForm
+from .forms import TaskForm
 
 # Create your views here.
 # def index(request):

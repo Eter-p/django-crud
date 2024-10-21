@@ -27,15 +27,15 @@ def crear_solicitud_inscripcion(request):
 			new_form4 = form4.save()
 			new_form5 = form5.save(commit=False)
 			new_form5.datos_personales_id = new_form1.id
-			print("paso1")
 			new_form5.datos_academicos_id = new_form2.id
-			print("paso2")
-			new_form5.antecedentes_id = new_form3.id
-			print("paso3")
 			new_form5.programa_semestral_id = new_form4.id
-			print("paso4")
 			new_form5.save()
-			print(new_form5)
+			form6 = InscripcionAntecedentes.objects.create(
+				id_solicitud_inscripcion = new_form5,
+				id_antecedentes = new_form3
+			)
+			form6.save()
+			
 			return redirect('index')
 		except Exception as error:
 			return render(request,"inscripcion.html",{
