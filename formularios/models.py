@@ -1,20 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
-
-# TIPOS_SOLICITUDES
-class TipoSolicitud(models.Model):
-    tipo_solicitud = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.tipo_solicitud
-
-# SOLICITUD
-class Solicitud(models.Model):
-    tipo_solicitud = models.ForeignKey(TipoSolicitud, on_delete=models.CASCADE)
-    contenido_solicitud = models.TextField()
-
-    def __str__(self):
-        return f"Solicitud {self.id}"
 
 # DATOS_PERSONALES_ALUMNO
 class DatosPersonalesAlumno(models.Model):
@@ -53,7 +37,7 @@ class AntecedentesAcademicos(models.Model):
     programa_academico_cursado = models.CharField(max_length=100)
     institucion_donde_curso = models.CharField(max_length=255)
     estado_institucion = models.CharField(max_length=100)
-    fecha_graduacion = models.DateField()
+    fecha_graduacion = models.DateField(null=True,blank=True)
 
     def __str__(self):
         return self.programa_academico_cursado

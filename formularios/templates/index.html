@@ -1,0 +1,94 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<div id="contenido">		
+	<section class="seccion"> <!--Seccion de la pagina-->
+		<article> <!--Articulo de la seccion-->
+			<hgroup> <!--Agrapacion de encabezados-->
+				<h1>Parrafo </h1>
+			</hgroup>
+			<time datetime="25-01-2024">Publicado 25-01-2024</time> <!--Incluir Fecha-->
+			<p> <!--Parrafo-->
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+				Hic minima similique earum numquam quis deleniti animi natus quibusdam? 
+				Alias, maxime eos! Corrupti quidem eaque, ipsum sapiente voluptates eos dolorum necessitatibus?
+			</p>
+			<footer>
+				<p>Pie de pagina del articulo 1</p>
+			</footer>
+		</article>
+		<hr>
+		<article>
+			<hgroup>
+				<h1>Analisis de herraminetas de parrafo</h1>
+				<h2>Este es un ejemplo de subtitulo</h2>	
+			</hgroup>
+			<time datetime="25-01-2024">Publicado 25-01-2024</time>
+			<p>
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>	<!--salto de linea-->
+				<small>Ea, corporis voluptate fugit vitae doloribus eos quas eligendi animi eum provident. </small> <br> <!--letra pequeña-->
+				<cite>Aut magnam, sequi eveniet vel aliquam quo delectus, nostrum asperiores rerum, <br> </cite> <!--cita-->
+				dolorum dolores natus! Explicabo dolor ullam necessitatibus distinctio quas quidem beatae! <br>
+				<span>Inventore explicabo repudiandae quam cumque quae ducimus reprehenderit!</span> <!--texto marcado para modificacion posterior en css-->
+			</p>
+			<footer>
+				<p>Pie de pagina del articulo 2</p>
+			</footer>
+		</article>
+		<hr>
+		<article>
+			<hgroup> 
+				<h1>Parrafo con estilo predeterminado</h1>
+				<h2>Subtitulo del articulo 3</h2>	
+			</hgroup>
+			<pre> <!--Texto con estilo predefinido-->
+				My Bonnie lies over the ocean.
+				
+				My Bonnie lies over the sea.
+				
+				My Bonnie lies over the ocean.
+				
+				Oh, bring back my Bonnie to me.
+				</pre>
+		</article>
+		<hr>
+		<article>
+			<hgroup> 
+				<h1>Tablas</h1>
+				<h2>Ejemplo de una tabla sin borde</h2>	
+			</hgroup>
+			<table> <!--Creacion de una tabla-->
+				<tr>	<!--Fila-->
+					<th>Company</th>	<!--Titulo de columna-->
+					<th>Contact</th>
+					<th>Country</th>
+				</tr>
+				<tr>
+					<td>Alfreds Futterkiste</td> <!--Columna-->
+					<td>Maria Anders</td>
+					<td>Germany</td>
+				</tr>
+				<tr>
+					<td>Centro comercial Moctezuma</td>
+					<td>Francisco Chang</td>
+					<td>Mexico</td>
+				</tr>
+				</table>
+		</article>
+	</section>
+	<hr>
+	<aside class="lateral">
+		<blockquote cite="http://url.com"> <!--Citas de libro, pagina o autor-->
+			Cita de informacion 1
+		</blockquote>
+
+		<blockquote cite="http://url2.com">
+			Cita de informacion 2
+		</blockquote>
+	</aside>
+
+	<footer class="pie">
+		Pie de pagina			
+	</footer>
+</div>
+{% endblock %}
