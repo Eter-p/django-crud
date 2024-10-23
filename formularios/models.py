@@ -19,7 +19,7 @@ class DatosPersonalesAlumno(models.Model):
 
     def __str__(self):
         return f"{self.apellido_paterno} {self.apellido_materno} {self.nombre}"
-
+    
 # DATOS_ACADEMICOS_ALUMNO
 class DatosAcademicosAlumno(models.Model):
     ESTATUS_CHOICE = [

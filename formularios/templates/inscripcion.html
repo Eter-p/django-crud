@@ -3,13 +3,75 @@
 {% block content %}
 <h1>FORMULARIO DE INSCRIPIÓN</h1>
 <h1>{{error}}</h1>
-<form action="/solicitud/inscripcion/" method="post">
-    {% csrf_token %}
-    {{form1.as_p}}
-    {{form2.as_p}}
-    {{form3.as_p}}
-    {{form4.as_p}}
-    {{form5.as_p}}
-    <button>Guardar</button>
-</form>
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+
+<main class="container">
+    <form action="/solicitud/inscripcion/" method="post">
+        {% csrf_token %}
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h3>Datos Personales</h3>
+                {{ form1.as_p }}
+            </li>
+            <li class="list-group-item">
+                <h3>Datos Academicos</h3>
+                {{ form2.as_p }}
+            </li>
+            <li class="list-group-item">
+                <h3>Antecedentes Academicos</h3>
+                {{ forms3.management_form }}
+                <div id="formularios a">
+                    {% for forma in forms3 %}
+                        <div class="formulario a">
+                            {{ forma.as_p }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div id='empty-form' class='hidden'>{{ forms3.empty_form.as_p }}</div>
+                <div><button id='add-more' type='button' class="btn btn-secondary">Añadir antecedente</button></div>
+            </li>
+            <li class="list-group-item">
+                <h3>Programa a cursar</h3>
+                <div id="formularios p">
+                        {{ form4.as_p }}
+                </div>
+            </li>
+            <li class="list-group-item">{{form5.as_p}}</li>
+        </ul>        
+        <button class="btn btn-primary">Guardar</button>
+    </form>
+</main>
+
+<script>
+    const addMoreBtn = document.getElementById('add-more')
+    // var varios= document.getElementsByName('form-TOTAL_FORMS')
+    // const totalNewForms = varios[0]
+    const totalNewForms = document.getElementById('id_form-TOTAL_FORMS')    
+    addMoreBtn.addEventListener('click', add_new_form)
+    console.log(totalNewForms)
+
+    function add_new_form(event) {
+        if (event) {
+            event.preventDefault()
+        }
+
+        const currentAntecedentes = document.getElementsByClassName('formulario')
+        let currentFormCount = currentAntecedentes.length
+
+        const formCopyTarget = document.getElementById('formularios a')
+        const copyEmptyFormEL = document.getElementById('empty-form').cloneNode(true)
+        copyEmptyFormEL.setAttribute('class', 'formulario a')
+        copyEmptyFormEL.setAttribute('id', `form-${currentFormCount}`)
+        const regex = new RegExp('__prefix__', 'g')
+        copyEmptyFormEL.innerHTML = copyEmptyFormEL.innerHTML.replace(regex,
+        currentFormCount)
+        totalNewForms.setAttribute('value', currentFormCount + 1)
+
+        formCopyTarget.append(copyEmptyFormEL)
+    }
+</script>
 {% endblock %}
