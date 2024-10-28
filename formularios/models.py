@@ -15,7 +15,6 @@ class DatosPersonalesAlumno(models.Model):
     sexo = models.CharField(max_length=1,choices=SEXO_CHOICE,default=None)
     correo_1 = models.EmailField()
     correo_2 = models.EmailField(blank=True, null=True)
-    firma_alumno = models.BooleanField()
 
     def __str__(self):
         return f"{self.apellido_paterno} {self.apellido_materno} {self.nombre}"

@@ -14,7 +14,6 @@ class FormDatosPersonalesAlumno(forms.ModelForm):
             "sexo",
             "correo_1",
             "correo_2",
-            "firma_alumno"
         ]
         widgets = {
             "apellido_paterno" : forms.TextInput(attrs={"class": "form-control"}),
@@ -26,7 +25,6 @@ class FormDatosPersonalesAlumno(forms.ModelForm):
             "sexo" : forms.Select(attrs={"class": "form-select"}),
             "correo_1" : forms.TextInput(attrs={"class": "form-control"}),
             "correo_2" : forms.TextInput(attrs={"class": "form-control"}),
-            "firma_alumno" : forms.CheckboxInput(attrs={"class": "form-check-input"})
         }
 
 
@@ -99,4 +97,4 @@ class FormSolicitudInscripcion(forms.ModelForm):
         }
 
 FormsetAntecedentes = forms.formset_factory(FormAntecedentesAcademicos, extra=0)
-FormsetProgramaIns = forms.formset_factory(FormProgramaSemestral, extra=2)
+FormsetProgramaIns = forms.formset_factory(FormProgramaSemestral, extra=0)
