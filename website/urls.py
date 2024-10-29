@@ -21,7 +21,11 @@ from formularios import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name='index'),
-	path('solicitud/inscripcion/', views.crear_solicitud_inscripcion,name='crear_solicitud_inscripcion'),
+	path('solicitud/inscripcion/datos/alumno', views.solicitud_inscripcion_1,name='solicitud_inscripcion_1'),
+	path('solicitud/inscripcion/antecedentes', views.solicitud_inscripcion_2,name='solicitud_inscripcion_2'),
+	path('solicitud/inscripcion/programa', views.solicitud_inscripcion_3,name='solicitud_inscripcion_3'),
+	path('solicitud/inscripcion/firmas', views.solicitud_inscripcion_4,name='solicitud_inscripcion_4'),
+	path('solicitud/cancelar', views.solicitud_cancelar,name='solicitud_cancelar'),
 	# path('tasks/', views.tasks, name='tasks'),
 	# path('tasks/create/', views.create_task, name='create_tasks'),
 	# path('tasks/<int:task_id>/', views.task_detail, name='task_detail'),

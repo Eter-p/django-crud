@@ -65,10 +65,10 @@ class ProgramaSemestral(models.Model):
 class SolicitudInscripcion(models.Model):
     datos_personales = models.ForeignKey(DatosPersonalesAlumno, on_delete=models.CASCADE)
     datos_academicos = models.ForeignKey(DatosAcademicosAlumno, on_delete=models.CASCADE)
-    firma_alumno = models.BooleanField()
-    firma_asesor = models.BooleanField()
-    firma_jefe = models.BooleanField()
-    aviso_privacidad = models.BooleanField()
+    firma_alumno = models.BooleanField(null=True,blank=True)
+    firma_asesor = models.BooleanField(null=True,blank=True)
+    firma_jefe = models.BooleanField(null=True,blank=True)
+    aviso_privacidad = models.BooleanField(null=True,blank=True)
 
     def __str__(self):
         return f"Solicitud Inscripción {self.id}"
