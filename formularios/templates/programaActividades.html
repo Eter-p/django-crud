@@ -1,0 +1,71 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+
+<h1>PROGRAMA INDIVIDUAL DE ACTIVIDADES</h1>
+<h1>{{error}}</h1>
+<form action="/programa/individual/actividades" method="post">
+    {% csrf_token %}
+    <ul class="list-group">
+        <li class="list-group-item">
+            <h3>Datos Personales</h3>
+            {{ formDatosP.as_p }}
+        </li>
+        <li class="list-group-item">
+            <h3>Datos Academicos</h3>
+            {{ formDatosA.as_p }}
+        </li>
+        <li class="list-group-item">
+            <h3>Datos Asesor</h3>
+            {{ formAsesor.as_p }}
+        </li>
+        <li class="list-group-item">
+            {{ formCosntacia.as_p }}
+        </li>
+        <li class="list-group-item" id="Seccion_Prog">
+            <h3>Programa de actividades a cursar</h3>
+            {{ formsPrograma.management_form }}
+            <div id="formularios prog">
+                {% for form in formsPrograma %}
+                    <div class="formulario prog">
+                        {{ form.as_p }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div id='empty-form-prog' class='hidden'>{{ formsPrograma.empty_form.as_p }}</div>
+            <div><button id='agregar materia' type='button' class="btn btn-secondary">Añadir materia</button></div>
+        </li>
+    </ul>        
+    <button class="btn btn-primary">Guardar</button>
+</form>
+
+<script>
+    const addMateBtn = document.getElementById('agregar materia')
+    const totalNewFormsProg = document.querySelector("#id_form-TOTAL_FORMS")
+    addMateBtn.addEventListener('click', add_new_form_mate)
+
+    function add_new_form_mate(event) {
+        if (event) {
+            event.preventDefault()
+        }
+
+        const currentAntecedentes = document.getElementsByClassName('formulario prog')
+        let currentFormCount = currentAntecedentes.length
+
+        const formCopyTarget = document.getElementById('formularios prog')
+        const copyEmptyFormEL = document.getElementById('empty-form-prog').cloneNode(true)
+        copyEmptyFormEL.setAttribute('class', 'formulario prog')
+        copyEmptyFormEL.setAttribute('id', `form-${currentFormCount}`)
+        const regex = new RegExp('__prefix__', 'g')
+        copyEmptyFormEL.innerHTML = copyEmptyFormEL.innerHTML.replace(regex,
+        currentFormCount)
+        totalNewFormsProg.setAttribute('value', currentFormCount + 1)
+        formCopyTarget.append(copyEmptyFormEL)
+    }
+</script>
+{% endblock %}

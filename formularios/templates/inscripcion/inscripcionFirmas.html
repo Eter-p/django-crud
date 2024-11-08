@@ -3,19 +3,15 @@
 
 <h1>FORMULARIO DE INSCRIPIÓN</h1>
 <h1>{{error}}</h1>
-<form action="/solicitud/inscripcion/datos/alumno" method="post">
+<form action="/solicitud/inscripcion/firmas" method="post">
     {% csrf_token %}
     <ul class="list-group">
         <li class="list-group-item">
-            <h3>Datos Personales</h3>
-            {{ form1.as_p }}
-        </li>
-        <li class="list-group-item">
-            <h3>Datos Academicos</h3>
-            {{ form2.as_p }}
+            <h3>Firmas</h3>
+            {{ formF.as_p }}
         </li>
     </ul>        
-    <button class="btn btn-primary">Siguiente</button>
+    <button class="btn btn-primary">Enviar</button>
 </form>
 
 <form action="/solicitud/cancelar" method="post">

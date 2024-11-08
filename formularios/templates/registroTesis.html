@@ -1,0 +1,27 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<h1>ACTA DE REGISTRO DE TESIS Y DESIGNACION DE DIRECTOR DE TESIS</h1>
+<h1>{{error}}</h1>
+<form action="/tesis/registro" method="post">
+    {% csrf_token %}
+    <ul class="list-group">
+        <li class="list-group-item">
+            <h3>Datos Personales</h3>
+            {{ formDatosP.as_p }}
+        </li>
+        <li class="list-group-item">
+            <h3>Datos Academicos</h3>
+            {{ formDatosA.as_p }}
+        </li>
+        <li class="list-group-item">
+            <h3>Datos Colegio de Profesores</h3>
+            {{ formColegio.as_p }}
+        </li>
+        <li class="list-group-item">
+            {{ formTesis.as_p }}
+        </li>
+    </ul>        
+    <button class="btn btn-primary">Guardar</button>
+</form>
+{% endblock %}

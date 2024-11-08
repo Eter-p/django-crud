@@ -9,11 +9,11 @@ class DatosPersonalesAlumno(models.Model):
     apellido_paterno = models.CharField(max_length=100)
     apellido_materno = models.CharField(max_length=100)
     nombre = models.CharField(max_length=100)
-    domicilio = models.CharField(max_length=255)
-    telefono_casa = models.CharField(max_length=20)
-    telefono_movil = models.CharField(max_length=20)
-    sexo = models.CharField(max_length=1,choices=SEXO_CHOICE,default=None)
-    correo_1 = models.EmailField()
+    domicilio = models.CharField(max_length=255,blank=True, null=True)
+    telefono_casa = models.CharField(max_length=20,blank=True, null=True)
+    telefono_movil = models.CharField(max_length=20,blank=True, null=True)
+    sexo = models.CharField(max_length=1,choices=SEXO_CHOICE,default=None,blank=True, null=True)
+    correo_1 = models.EmailField(blank=True, null=True)
     correo_2 = models.EmailField(blank=True, null=True)
 
     def __str__(self):
@@ -22,14 +22,13 @@ class DatosPersonalesAlumno(models.Model):
 # DATOS_ACADEMICOS_ALUMNO
 class DatosAcademicosAlumno(models.Model):
     ESTATUS_CHOICE = [
-        ('C', 'Tiempo Completo'),
-        ('P', 'Tiempo Parcial'),
-        ('O', 'Otro'),
+        ('Completo', 'Tiempo Completo'),
+        ('Parcial', 'Tiempo Parcial'),
     ]
-    boleta = models.CharField(max_length=50)
-    unidad_academica_actual = models.CharField(max_length=100)
+    boleta = models.CharField(max_length=50,blank=True,null=True)
+    unidad_academica_actual = models.CharField(max_length=100,blank=True,null=True)
     nom_programa_actual = models.CharField(max_length=100)
-    estatus = models.CharField(max_length=1, choices=ESTATUS_CHOICE, default='C')
+    estatus = models.CharField(max_length=8, choices=ESTATUS_CHOICE, default='Completo',blank=True,null=True)
 
     def __str__(self):
         return self.boleta
@@ -37,12 +36,12 @@ class DatosAcademicosAlumno(models.Model):
 # ANTECEDENTES_ACADEMICOS
 class AntecedentesAcademicos(models.Model):
     NIVEL_CHOICE = [
-        ('L', 'Licenciatura'),
-        ('E', 'Especialidad'),
-        ('M', 'Maestria'),
-        ('D', 'Doctorado'),
+        ('Licenciatura', 'Licenciatura'),
+        ('Especialidad', 'Especialidad'),
+        ('Maestria', 'Maestria'),
+        ('Doctorado', 'Doctorado'),
     ]
-    nivel_academico_cursado = models.CharField(max_length=1,choices=NIVEL_CHOICE,default='L')
+    nivel_academico_cursado = models.CharField(max_length=12,choices=NIVEL_CHOICE,default='Licenciatura')
     programa_academico_cursado = models.CharField(max_length=100)
     institucion_donde_curso = models.CharField(max_length=255)
     estado_institucion = models.CharField(max_length=100)
@@ -56,7 +55,7 @@ class ProgramaSemestral(models.Model):
     clave = models.CharField(max_length=50)
     unidad_aprendizaje = models.CharField(max_length=100)
     profesor = models.CharField(max_length=100)
-    lugar_realizacion = models.CharField(max_length=255)
+    lugar_realizacion = models.CharField(max_length=255,default="ESCOM")
 
     def __str__(self):
         return self.clave
@@ -104,8 +103,6 @@ class SolicitudReinscripcion(models.Model):
     datos_personales = models.ForeignKey(DatosPersonalesAlumno, on_delete=models.CASCADE)
     datos_academicos = models.ForeignKey(DatosAcademicosAlumno, on_delete=models.CASCADE)
     fecha = models.DateField()
-    nom_programa_a_cursar = models.CharField(max_length=100)
-    unidad_academica_a_cursar = models.CharField(max_length=100)
     periodo = models.CharField(max_length=50)
     semestre_a_cursar = models.IntegerField(choices=NIVEL_CHOICE)
     requiere_unidad = models.BooleanField()
@@ -129,7 +126,6 @@ class DatosAsesor(models.Model):
     apellido_paterno = models.CharField(max_length=100)
     apellido_materno = models.CharField(max_length=100)
     nombre = models.CharField(max_length=100)
-    firma_asesor = models.BooleanField()
 
     def __str__(self):
         return f"{self.apellido_paterno} {self.apellido_materno} {self.nombre}"
@@ -137,7 +133,11 @@ class DatosAsesor(models.Model):
 # CONSTANCIA_PROGRAMA_INDIVIDUAL
 class ConstanciaProgramaIndividual(models.Model):
     datos_personales = models.ForeignKey(DatosPersonalesAlumno, on_delete=models.CASCADE)
+    datos_academicos = models.ForeignKey(DatosAcademicosAlumno, on_delete=models.CASCADE)
     asesor = models.ForeignKey(DatosAsesor, on_delete=models.CASCADE)
+    fecha = models.DateField()
+    total_creditos = models.FloatField(null=True)
+    fecha_limite = models.DateField(null=True)
     firma_alumno = models.BooleanField()
     firma_asesor = models.BooleanField()
     firma_jefe = models.BooleanField()
@@ -145,10 +145,23 @@ class ConstanciaProgramaIndividual(models.Model):
     def __str__(self):
         return f"Constancia {self.id}"
 
+# COLEGIO_PROFESORES_POSGRADO
+class ColegioProfesoresPosgrado(models.Model):
+    unidad_colegio_profesores = models.CharField(max_length=255)
+    nombre_sesion = models.CharField(max_length=255,null=True,blank=True)
+    numero_sesion = models.IntegerField(null=True,blank=True)
+    fecha_sesion = models.DateField(default=None,null=True,blank=True)
+
+    def __str__(self):
+        return self.nombre_sesion + " No. " + self.numero_sesion
+
+
 # ACTA_REGISTRO_TEMA_TESIS
 class ActaRegistroTemaTesis(models.Model):
     datos_personales = models.ForeignKey(DatosPersonalesAlumno, on_delete=models.CASCADE)
     datos_academicos = models.ForeignKey(DatosAcademicosAlumno, on_delete=models.CASCADE)
+    colegio_profesores = models.ForeignKey(ColegioProfesoresPosgrado, on_delete=models.CASCADE,default=None,null=True)
+    fecha = models.DateField(default=None,null=True)
     tema_tesis = models.CharField(max_length=255)
     objetivo_general_tesis = models.TextField()
     nombre_director_1 = models.CharField(max_length=100)
@@ -166,17 +179,21 @@ class ActaRegistroTemaTesis(models.Model):
 # ACTA_REVISION_TESIS
 class ActaRevisionTesis(models.Model):
     MANIFIESTO_CHOICE = [
-        ('A', 'Aprobar'),
-        ('S', 'Suspender'),
-        ('N', 'No Aprobar'),
+        ('Aprobar', 'Aprobar'),
+        ('Susperder', 'Suspender'),
+        ('No Aprobar', 'No Aprobar'),
     ]
     datos_personales = models.ForeignKey(DatosPersonalesAlumno, on_delete=models.CASCADE)
     datos_academicos = models.ForeignKey(DatosAcademicosAlumno, on_delete=models.CASCADE)
+    colegio_profesores = models.ForeignKey(ColegioProfesoresPosgrado, on_delete=models.CASCADE,default=None)
+    fecha = models.DateField(default=None)
     titulo_tesis = models.CharField(max_length=255)
     porcentaje_plagio = models.FloatField()
     conclusion_plagio = models.TextField()
     justificacion_conclusion = models.TextField()
-    manifiesto_comision = models.TextField(max_length=1,choices=MANIFIESTO_CHOICE)
+    manifiesto_comision = models.TextField(max_length=10,choices=MANIFIESTO_CHOICE)
+    firma_director_1 = models.BooleanField(default=None)
+    firma_director_2 = models.BooleanField(default=None)
     firma_comision_1 = models.BooleanField()
     firma_comision_2 = models.BooleanField()
     firma_comision_3 = models.BooleanField()
@@ -185,32 +202,25 @@ class ActaRevisionTesis(models.Model):
     def __str__(self):
         return f"Acta de Revision de tesis {self.id}"
 
-# COLEGIO_PROFESORES_POSGRADO
-class ColegioProfesoresPosgrado(models.Model):
-    unidad_colegio_profesores = models.CharField(max_length=255)
-    nombre_sesion = models.CharField(max_length=255)
-    numero_sesion = models.IntegerField()
-
-    def __str__(self):
-        return self.nombre_sesion + " No. " + self.numero_sesion
-
 # PROGRAMA_ACTIVIDADES
 class ProgramaActividades(models.Model):
+    PERIODO_CHOICE = [
+        ('A', 'A'),
+        ('B', 'B'),
+    ]
     clave = models.CharField(max_length=50)
     unidad_aprendizaje = models.CharField(max_length=100)
     creditos = models.FloatField()
-    periodo = models.CharField(max_length=50)
+    periodo = models.CharField(max_length=1,choices=PERIODO_CHOICE)
     lugar_realizacion = models.CharField(max_length=255)
-    total_creditos = models.FloatField()
-    fecha_limite = models.DateField()
-
+    
     def __str__(self):
         return self.clave
 
 # CONSTANCIA_PROGRAMA
 class ConstanciaPrograma(models.Model):
     id_constancia_programa_individual = models.ForeignKey(ConstanciaProgramaIndividual,on_delete=models.CASCADE)
-    id_programa_actividaes = models.ForeignKey(ProgramaActividades,on_delete=models.CASCADE)
+    id_programa_actividades = models.ForeignKey(ProgramaActividades,on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.id}"
