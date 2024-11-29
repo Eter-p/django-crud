@@ -1,8 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser,User
+from django.db import models
+from datetime import datetime
+
 
 # DATOS_PERSONALES_ALUMNO
 class DatosPersonalesAlumno(models.Model):
-    SEXO_CHOICE = [
+    GENERO_CHOICE = [
         ('H', 'H'),
         ('M', 'M')
     ]
@@ -12,7 +16,7 @@ class DatosPersonalesAlumno(models.Model):
     domicilio = models.CharField(max_length=255,blank=True, null=True)
     telefono_casa = models.CharField(max_length=20,blank=True, null=True)
     telefono_movil = models.CharField(max_length=20,blank=True, null=True)
-    sexo = models.CharField(max_length=1,choices=SEXO_CHOICE,default=None,blank=True, null=True)
+    genero = models.CharField(max_length=1,choices=GENERO_CHOICE,default=None,blank=True, null=True)
     correo_1 = models.EmailField(blank=True, null=True)
     correo_2 = models.EmailField(blank=True, null=True)
 
@@ -107,8 +111,8 @@ class SolicitudReinscripcion(models.Model):
     semestre_a_cursar = models.IntegerField(choices=NIVEL_CHOICE)
     requiere_unidad = models.BooleanField()
     firma_alumno = models.BooleanField()
-    firma_asesor = models.BooleanField()
-    firma_jefe = models.BooleanField()
+    firma_asesor = models.BooleanField(null=True,blank=True)
+    firma_jefe = models.BooleanField(null=True,blank=True)
 
     def __str__(self):
         return f"Solicitud Reinscripción {self.id}"
@@ -160,7 +164,7 @@ class ColegioProfesoresPosgrado(models.Model):
 class ActaRegistroTemaTesis(models.Model):
     datos_personales = models.ForeignKey(DatosPersonalesAlumno, on_delete=models.CASCADE)
     datos_academicos = models.ForeignKey(DatosAcademicosAlumno, on_delete=models.CASCADE)
-    colegio_profesores = models.ForeignKey(ColegioProfesoresPosgrado, on_delete=models.CASCADE,default=None,null=True)
+    colegio_profesores = models.ForeignKey(ColegioProfesoresPosgrado, on_delete=models.CASCADE,default=None,null=True,blank=True)
     fecha = models.DateField(default=None,null=True)
     tema_tesis = models.CharField(max_length=255)
     objetivo_general_tesis = models.TextField()
@@ -168,10 +172,10 @@ class ActaRegistroTemaTesis(models.Model):
     nombre_director_2 = models.CharField(max_length=100, blank=True, null=True)
     aplicacion_director = models.BooleanField()
     base_tesis = models.TextField()
-    firma_director_1 = models.BooleanField()
+    firma_director_1 = models.BooleanField(blank=True, null=True)
     firma_director_2 = models.BooleanField(blank=True, null=True)
     firma_alumno = models.BooleanField()
-    firma_presidente_colegio = models.BooleanField()
+    firma_presidente_colegio = models.BooleanField(blank=True, null=True)
 
     def __str__(self):
         return f"Acta de Registro de tesis {self.id}"
@@ -224,3 +228,11 @@ class ConstanciaPrograma(models.Model):
 
     def __str__(self):
         return f"{self.id}"
+    
+#CALENDARIO
+class Calendario(models.Model):
+    nombre = models.CharField(max_length=50)
+    fecha_inicio = models.DateTimeField(blank=True,null=True)
+    fecha_final = models.DateTimeField(blank=True,null=True)
+    def __str__(self):
+        return self.nombre

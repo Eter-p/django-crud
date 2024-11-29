@@ -11,7 +11,7 @@ class FormDatosPersonalesAlumnoIns(forms.ModelForm):
             "domicilio",
             "telefono_casa",
             "telefono_movil",
-            "sexo",
+            "genero",
             "correo_1",
             "correo_2",
         ]
@@ -22,7 +22,7 @@ class FormDatosPersonalesAlumnoIns(forms.ModelForm):
             "domicilio" : forms.TextInput(attrs={"class": "form-control"}),
             "telefono_casa" : forms.TextInput(attrs={"class": "form-control"}),
             "telefono_movil" : forms.TextInput(attrs={"class": "form-control"}),
-            "sexo" : forms.Select(attrs={"class": "form-select"}),
+            "genero" : forms.Select(attrs={"class": "form-select"}),
             "correo_1" : forms.TextInput(attrs={"class": "form-control"}),
             "correo_2" : forms.TextInput(attrs={"class": "form-control"}),
         }

@@ -8,7 +8,29 @@
     <ul class="list-group">
         <li class="list-group-item">
             <h3>Firmas</h3>
-            {{ formF.as_p }}
+			{% if user.is_authenticated %}
+                <div class="mb-3">
+                    <label for="id_solicitud">Id de la solicitud</label>
+                    <input type="text" name="id_solicitud" id="id_solicitud" class="mb-2">
+                </div>
+                <div class="mb-3">
+                    <label for="firma_asesor">Firma del asesor</label>
+                    <input type="checkbox" name="firma_asesor" id="firma_asesor" class="form-check-input">
+                </div>
+                <div class="mb-3">
+                    <label for="firma_jefe">Firma del jefe</label>
+                    <input type="checkbox" name="firma_jefe" id="firma_jefe" class="form-check-input">
+                </div>
+            {% else %}
+                <div class="mb-3">
+                    <label for="firma_alumno">Firma del alumno</label>
+                    <input type="checkbox" name="firma_alumno" class="form-check-input">
+                </div>
+                <div class="mb-3">
+                    <label for="aviso_privacidad">Aviso de privacidad</label>
+                    <input type="checkbox" name="aviso_privacidad" id="aviso_privacidad" class="form-check-input">
+                </div>
+            {% endif %}
         </li>
     </ul>        
     <button class="btn btn-primary">Enviar</button>
