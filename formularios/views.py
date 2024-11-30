@@ -3,10 +3,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
-from django.core.mail import send_mail
-from django.template import RequestContext
-from django.contrib.sites.shortcuts import get_current_site
-import hashlib,random
 import datetime as d
 from .forms import *
 
