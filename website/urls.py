@@ -40,4 +40,6 @@ urlpatterns = [
     path('signin/',views.signin,name='signin'),
     path('logout/',views.signout,name='logout'),
     path('success/<str:folio>',views.success,name='success'),
+    path('crear_superusuario/', views.crear_superusuario, name='crear_superusuario'),
+    path('creacion_calendario/', views.creacion_calendario, name='creacion_calendario'),
 ]

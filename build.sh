@@ -10,9 +10,3 @@ python manage.py collectstatic --no-input
 
 # Apply any outstanding database migrations
 python manage.py migrate
-
-python manage.py createsuperuser
-eter
-hernandez.hernandez.fabian@gmail.com
-tevill5393941
-tevill5393941

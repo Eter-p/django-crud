@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 import datetime as d
@@ -409,3 +410,13 @@ def creacion_calendario():
 			)
 #creacion_calendario()
 
+def crear_superusuario(request):
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser(
+            username='admin',
+            email='admin@example.com',
+            password='tevill5393941'
+        )
+        return HttpResponse("Superusuario creado exitosamente.")
+    else:
+        return HttpResponse("El superusuario ya existe.")
