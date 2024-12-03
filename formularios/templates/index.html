@@ -4,25 +4,39 @@
 <div id="contenido">		
 	<section class="card-body">
 		<div class="card card-body text-center">
-			<h1>BIENVENIDO</h1>
+			<h1 class="display-3">Bienvenido al sistema de gestión de formularios de la SEPI</h1>
 			<p>Sección de Estudios de Posgrado e Investigación (SEPI)
 				Les damos la más cordial bienvenida a la SEPI de la Escuela Superior de Cómputo (ESCOM) que acorde con la tradición del Instituto Politécnico Nacional debe ser una Institución rectora de la educación tecnológica pública en México y líder en la generación, aplicación, difusión y la trasnferencia de conocimiento científico y tecnológico; propone como parte de su crecimiento natural en el año de 2009 la Maestría en Ciencias en Sistemas Computacionales Móviles, con el objetivo de formar personal altamente calificado y competitivo a nivel internacional, que contribuya a generar, innovar y aplicar la computación móvil en la resolución de las diferentes necesidades del país.
-				
 				Nuestro programa de posgrado es joven; sin embargo, quienes conformamos el equipo de trabajo de la Escuela Superior de Cómputo, tenemos una enorme experiencia en educación superior y posgrado, tanto a nivel nacional como en el extranjero.</p>
 		</div>
 		<div class="col-md-4 offset-md-4">
 			<ul class="list-group">
 				<li class="list-group-item">
-					<a class="list-group-item" href="/formularios">Solicitar Formulario</a>
+					<a class="list-group-item" aria-current="true" href="/formularios">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Solicitar Formulario</h5>
+						</div>
+					</a>
 				</li>
 				
-				<li class="list-group-item"><a class="nav-link active" href="/">Inicio</a></li> 
-				<li class="list-group-item"><a class="nav-link active" href="/admin">Administrador</a></li>
+				<li class="list-group-item"><a class="nav-link active" href="/admin">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Iniciar como administrador</h5>
+					</div></a></li>
 				{% if user.is_authenticated %}
-					<li class="list-group-item"><a class="nav-link active" href="/logout">Cerrar sesion</a></li>
+					<li class="list-group-item"><a class="nav-link active" href="/logout">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Cerrar sesion</h5>
+						</div></a></li>
 				{% else %}
-					<li class="list-group-item"><a class="nav-link active" href="/signup">Registrar</a></li>
-					<li class="list-group-item"><a class="nav-link active" href="/signin">Iniciar Sesion</a></li>
+					<li class="list-group-item"><a class="nav-link active" href="/signup">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Registrar nuevo usario</h5>
+						</div></a></li>
+					<li class="list-group-item"><a class="nav-link active" href="/signin">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Iniciar Sesion</h5>
+						</div></a></li>
 				{% endif %}
 			</ul>
 	</section>
