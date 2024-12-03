@@ -1,8 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser,User
 from django.db import models
-from datetime import datetime
-
 
 # DATOS_PERSONALES_ALUMNO
 class DatosPersonalesAlumno(models.Model):
@@ -35,7 +32,10 @@ class DatosAcademicosAlumno(models.Model):
     estatus = models.CharField(max_length=8, choices=ESTATUS_CHOICE, default='Completo',blank=True,null=True)
 
     def __str__(self):
-        return self.boleta
+        if {self.boleta}!=None:
+            return f"{self.boleta}"
+        else:
+            return f"Sin boleta {self.id}"
 
 # ANTECEDENTES_ACADEMICOS
 class AntecedentesAcademicos(models.Model):
@@ -56,13 +56,29 @@ class AntecedentesAcademicos(models.Model):
 
 # PROGRAMA_SEMESTRAL
 class ProgramaSemestral(models.Model):
+    UNIDADES = [
+        ("09B5786","Métodos matemáticos para el análisis de sistemas y señales"),
+        ("09B5787","Fundamentos de comunicaciones móviles"),
+        ("O1","Optativa I"),
+        ("09B5789","Seminario I"),
+        ("09B5791","Arquitectura de dispositivos móviles"),
+        ("O2","Optativa II"),
+        ("05B4670","Trabajo tesis"),
+        ("09B5792","Seminario II"),
+        ("O3","Optativa III"),
+        ("O4","Optativa IV"),
+        ("05B4670","Trabajo tesis"),
+        ("09B5794","Seminario III"),
+        ("13A6641","Seminario IV"),
+        ("TESIS","Tesis")
+    ]
     clave = models.CharField(max_length=50)
-    unidad_aprendizaje = models.CharField(max_length=100)
+    unidad_aprendizaje = models.CharField(max_length=100,choices=UNIDADES,default="el")
     profesor = models.CharField(max_length=100)
     lugar_realizacion = models.CharField(max_length=255,default="ESCOM")
 
     def __str__(self):
-        return self.clave
+        return self.unidad_aprendizaje
 
 # SOLICITUD_INSCRIPCION
 class SolicitudInscripcion(models.Model):
@@ -74,7 +90,12 @@ class SolicitudInscripcion(models.Model):
     aviso_privacidad = models.BooleanField(null=True,blank=True)
 
     def __str__(self):
-        return f"Solicitud Inscripción {self.id}"
+        return f"Solicitud de Inscripción {self.id} : {self.datos_personales} - {self.datos_academicos}"
+    
+    class Meta:
+        verbose_name = "Solicitud de Inscripción"
+        verbose_name_plural = "Solicitudes de Inscripción"
+    
 
 # INSCRIPCION_ANTECEDENTES
 class InscripcionAntecedentes(models.Model):
@@ -116,6 +137,10 @@ class SolicitudReinscripcion(models.Model):
 
     def __str__(self):
         return f"Solicitud Reinscripción {self.id}"
+    
+    class Meta:
+        verbose_name = "Solicitud de Reinscripción"
+        verbose_name_plural = "Solicitudes de Reinscripción"
 
 # REINSCRIPCION_PROGRAMA
 class ReinscripcionPrograma(models.Model):
@@ -148,6 +173,10 @@ class ConstanciaProgramaIndividual(models.Model):
 
     def __str__(self):
         return f"Constancia {self.id}"
+    
+    class Meta:
+        verbose_name = "Constancia de inscripción al programa individual"
+        verbose_name_plural = "Constancias de inscripción al programa individual"
 
 # COLEGIO_PROFESORES_POSGRADO
 class ColegioProfesoresPosgrado(models.Model):
@@ -179,6 +208,10 @@ class ActaRegistroTemaTesis(models.Model):
 
     def __str__(self):
         return f"Acta de Registro de tesis {self.id}"
+    
+    class Meta:
+        verbose_name = "Acta de Registro de Tema de Tesis"
+        verbose_name_plural = "Actas de Registro de Tema de Tesis"
 
 # ACTA_REVISION_TESIS
 class ActaRevisionTesis(models.Model):
@@ -205,6 +238,10 @@ class ActaRevisionTesis(models.Model):
 
     def __str__(self):
         return f"Acta de Revision de tesis {self.id}"
+    
+    class Meta:
+        verbose_name = "Acta de Revision de tesis"
+        verbose_name_plural = "Actas de Revision de tesis"
 
 # PROGRAMA_ACTIVIDADES
 class ProgramaActividades(models.Model):
@@ -212,6 +249,7 @@ class ProgramaActividades(models.Model):
         ('A', 'A'),
         ('B', 'B'),
     ]
+    
     clave = models.CharField(max_length=50)
     unidad_aprendizaje = models.CharField(max_length=100)
     creditos = models.FloatField()
@@ -234,5 +272,8 @@ class Calendario(models.Model):
     nombre = models.CharField(max_length=50)
     fecha_inicio = models.DateTimeField(blank=True,null=True)
     fecha_final = models.DateTimeField(blank=True,null=True)
+    class Meta:
+        verbose_name = "Calendario"
+        verbose_name_plural = "Calendarios"
     def __str__(self):
         return self.nombre

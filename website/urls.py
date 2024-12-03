@@ -21,6 +21,7 @@ from formularios import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name='index'),
+    path('formularios/',views.formularios,name='formularios'),
 	path('solicitud/inscripcion/datos/alumno', views.inscripcion_datos,name='inscripcion_datos'),
 	path('solicitud/inscripcion/antecedentes', views.inscripcion_antecedentes,name='inscripcion_antecedentes'),
 	path('solicitud/inscripcion/programa', views.inscripcion_programa,name='inscripcion_programa'),

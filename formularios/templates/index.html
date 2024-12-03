@@ -3,40 +3,26 @@
 {% block content %}
 <div id="contenido">		
 	<section class="card-body">
-		<div>
-			<h3>Formularios</h3>
+		<div class="card card-body text-center">
+			<h1>BIENVENIDO</h1>
+			<p>Sección de Estudios de Posgrado e Investigación (SEPI)
+				Les damos la más cordial bienvenida a la SEPI de la Escuela Superior de Cómputo (ESCOM) que acorde con la tradición del Instituto Politécnico Nacional debe ser una Institución rectora de la educación tecnológica pública en México y líder en la generación, aplicación, difusión y la trasnferencia de conocimiento científico y tecnológico; propone como parte de su crecimiento natural en el año de 2009 la Maestría en Ciencias en Sistemas Computacionales Móviles, con el objetivo de formar personal altamente calificado y competitivo a nivel internacional, que contribuya a generar, innovar y aplicar la computación móvil en la resolución de las diferentes necesidades del país.
+				
+				Nuestro programa de posgrado es joven; sin embargo, quienes conformamos el equipo de trabajo de la Escuela Superior de Cómputo, tenemos una enorme experiencia en educación superior y posgrado, tanto a nivel nacional como en el extranjero.</p>
+		</div>
+		<div class="col-md-4 offset-md-4">
 			<ul class="list-group">
-				<li class="list-group-item border border-2 border-dark">
-					<p> Fecha de apertura del formulario: {{ inscripcion.fecha_inicio }}</p>
-					<p> Fecha de cierre del formulario: {{ inscripcion.fecha_final }}</p>
-					{% if user.is_authenticated %}
-						<a class="list-group-item active" href="/solicitud/inscripcion/firmas">Inscripción</a>
-					{% else %}
-						<a class="list-group-item active" href="/solicitud/inscripcion/datos/alumno">Inscripción</a>
-					{% endif %}
+				<li class="list-group-item">
+					<a class="list-group-item" href="/formularios">Solicitar Formulario</a>
 				</li>
 				
-				<li class="list-group-item border border-2 border-dark">
-					<p> Fecha de apertura del formulario: {{ reinscripcion.fecha_inicio }}</p>
-					<p> Fecha de cierre del formulario: {{ reinscripcion.fecha_final }}</p>
-					<a class="list-group-item active" href="/solicitud/reinscripcion">Reinscripción</a>
-				</li>
-				<li class="list-group-item border border-2 border-dark">
-					<p> Fecha de apertura del formulario: {{ programa.fecha_inicio }}</p>
-					<p> Fecha de cierre del formulario: {{ programa.fecha_final }}</p>
-					<a class="list-group-item active" href="/programa/individual/actividades">Programa individual</a>
-				</li>
-				<li class="list-group-item border border-2 border-dark">
-					<p> Fecha de apertura del formulario: {{ registro.fecha_inicio }}</p>
-					<p> Fecha de cierre del formulario: {{ registro.fecha_final }}</p>
-					<a class="list-group-item active" href="/tesis/registro">Tesis registro</a>
-				</li>
+				<li class="list-group-item"><a class="nav-link active" href="/">Inicio</a></li> 
+				<li class="list-group-item"><a class="nav-link active" href="/admin">Administrador</a></li>
 				{% if user.is_authenticated %}
-					<li class="list-group-item border border-2 border-dark">
-						<p> Fecha de apertura del formulario: {{ revision.fecha_inicio }}</p>
-						<p> Fecha de cierre del formulario: {{ revision.fecha_final }}</p>
-						<a class="list-group-item active" href="/tesis/revision">Tesis revisión</a>
-					</li>
+					<li class="list-group-item"><a class="nav-link active" href="/logout">Cerrar sesion</a></li>
+				{% else %}
+					<li class="list-group-item"><a class="nav-link active" href="/signup">Registrar</a></li>
+					<li class="list-group-item"><a class="nav-link active" href="/signin">Iniciar Sesion</a></li>
 				{% endif %}
 			</ul>
 	</section>

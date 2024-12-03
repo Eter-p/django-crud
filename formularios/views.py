@@ -10,12 +10,15 @@ form_solicitud = None
 
 # Pantalla de inicio
 def index(request):
+	return render(request,"index.html")
+
+def formularios(request):
 	calendario_inscripcion = Calendario.objects.get(nombre="Inscripcion")
 	calendario_reinscripcion = Calendario.objects.get(nombre="Reinscripcion")
 	calendario_programa = Calendario.objects.get(nombre="Programa de Actividaes")
 	calendario_registro = Calendario.objects.get(nombre="Tesis Registro")
 	calendario_revision = Calendario.objects.get(nombre="Tesis Revision")
-	return render(request, "index.html",{
+	return render(request, "formularios.html",{
 		"inscripcion":calendario_inscripcion,
 		"reinscripcion":calendario_reinscripcion,
 		"programa":calendario_programa,
@@ -140,9 +143,10 @@ def inscripcion_firmas(request):
 			return redirect('success',"0")
 		else:
 			solicitud = get_object_or_404(SolicitudInscripcion,pk=form_solicitud.id)
-			form_inscripcion = FormSolicitudInscripcion(request.POST,instance=solicitud)
-			form_inscripcion.save()
-			return redirect('success',form_inscripcion)
+			solicitud.firma_alumno = "on" in request.POST.get('firma_alumno')
+			solicitud.aviso_privacidad = "on" in request.POST.get('aviso_privacidad')
+			solicitud.save()
+			return redirect('success',solicitud.id)
 	except Exception as error:
 		return render(request,"inscripcion/inscripcionFirmas.html",{
 			'formF':SolicitudInscripcion,
@@ -299,10 +303,6 @@ def tesis_registro(request):
 			solicitud.save()
 			return redirect('success',"0")
 		else:
-			solicitud = get_object_or_404(SolicitudInscripcion,pk=form_solicitud.id)
-			form_inscripcion = FormSolicitudInscripcion(request.POST,instance=solicitud)
-			form_inscripcion.save()
-
 			form_datos_p = FormDatosPersonalesAlumnoIns(request.POST)
 			form_datos_a = FormDatosAcademicosAlumnoIns(request.POST)
 			form_tesis = FormActaRegistroTemaTesis(request.POST)
@@ -365,14 +365,11 @@ def signup(request):
 			user = User.objects.create_user(username=request.POST["username"], password=request.POST["password1"])
 			user.save()
 			login(request,user)
-			return redirect("success")
-		except:
+			return redirect("success","0")
+		except Exception as error:
 			return render(request,"signup.html", {
-				"error": "Error al crear usuario"
+				"error": error
 			})
-	return render(request,"signgup.html", {
-		"error": "Error"
-	})
 
 #INICIAR SESIÓN -------------------------------------------------------------------------------
 def signin(request):
@@ -410,5 +407,5 @@ def creacion_calendario():
 				fecha_inicio =d.datetime.now(),
 				fecha_final = d.datetime.now()+d.timedelta(days=30)
 			)
-creacion_calendario()
+#creacion_calendario()
 

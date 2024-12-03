@@ -72,7 +72,7 @@ class FormProgramaSemestral(forms.ModelForm):
 
         widgets = {
            "clave" : forms.TextInput(attrs={"class": "form-control"}),
-            "unidad_aprendizaje" : forms.TextInput(attrs={"class": "form-control"}),
+            "unidad_aprendizaje" : forms.Select(attrs={"class": "form-select"}),
             "profesor" : forms.TextInput(attrs={"class": "form-control"}),
             "lugar_realizacion" : forms.TextInput(attrs={"class": "form-control"}) 
         }
