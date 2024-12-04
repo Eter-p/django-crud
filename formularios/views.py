@@ -14,9 +14,9 @@ def index(request):
 	return render(request,"index.html")
 
 def formularios(request):
-	calendario_inscripcion = Calendario.objects.get(nombre="Inscripcion")
-	calendario_reinscripcion = Calendario.objects.get(nombre="Reinscripcion")
-	calendario_programa = Calendario.objects.get(nombre="Programa de Actividaes")
+	calendario_inscripcion = Calendario.objects.get(nombre="Inscripción")
+	calendario_reinscripcion = Calendario.objects.get(nombre="Reinscripción")
+	calendario_programa = Calendario.objects.get(nombre="Programa de Actividades")
 	calendario_registro = Calendario.objects.get(nombre="Tesis Registro")
 	calendario_revision = Calendario.objects.get(nombre="Tesis Revision")
 	return render(request, "formularios.html",{
@@ -398,9 +398,9 @@ def signout(request):
 def success(request,folio):
 	return render(request, "success.html",{"folio":folio})
 
-def creacion_calendario():
+def creacion_calendario(request):
 	fechas = Calendario.objects.all()
-	nombres = ["Inscripcion","Reinscripcion","Programa de Actividaes","Tesis Registro","Tesis Revision"]
+	nombres = ["Inscripción","Reinscripción","Programa de Actividades","Tesis Registro","Tesis Revision"]
 	if len(fechas) == 0:
 		for nom in nombres:
 			Calendario.objects.create(
@@ -408,6 +408,9 @@ def creacion_calendario():
 				fecha_inicio =d.datetime.now(),
 				fecha_final = d.datetime.now()+d.timedelta(days=30)
 			)
+		return HttpResponse("Calendarios creados")
+	else:
+		return HttpResponse("Los calendarios ya fueron creados")
 #creacion_calendario()
 
 def crear_superusuario(request):
