@@ -19,10 +19,7 @@
 					</a>
 				</li>
 				
-				<li class="list-group-item"><a class="nav-link active" href="/admin">
-					<div class="d-flex w-100 justify-content-between">
-						<h5 class="mb-1">Iniciar como administrador</h5>
-					</div></a></li>
+				
 				{% if user.is_authenticated %}
 					<li class="list-group-item"><a class="nav-link active" href="/logout">
 						<div class="d-flex w-100 justify-content-between">
@@ -31,12 +28,19 @@
 				{% else %}
 					<li class="list-group-item"><a class="nav-link active" href="/signup">
 						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1">Registrar nuevo usario</h5>
-						</div></a></li>
+							<h5 class="mb-1">Registrar nuevo usuario</h5>
+						</div></a>
+					</li>
 					<li class="list-group-item"><a class="nav-link active" href="/signin">
 						<div class="d-flex w-100 justify-content-between">
 							<h5 class="mb-1">Iniciar Sesion</h5>
-						</div></a></li>
+						</div></a>
+					</li>
+					<li class="list-group-item"><a class="nav-link active" href="/admin">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Iniciar sesion como administrador</h5>
+						</div></a>
+					</li>
 				{% endif %}
 			</ul>
 	</section>

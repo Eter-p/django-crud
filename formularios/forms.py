@@ -101,11 +101,13 @@ class FormDatosPersonalesAlumnoRei(forms.ModelForm):
             "apellido_paterno",
             "apellido_materno",
             "nombre",
+            "correo_1"
         ]
         widgets = {
             "apellido_paterno" : forms.TextInput(attrs={"class": "form-control"}),
             "apellido_materno" : forms.TextInput(attrs={"class": "form-control"}),
             "nombre" : forms.TextInput(attrs={"class": "form-control"}),
+            "correo_1" : forms.TextInput(attrs={"class": "form-control"})
         }
 
 class FormDatosAcademicosAlumnoRei(forms.ModelForm):

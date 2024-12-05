@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
+from django.core.mail import send_mail
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -8,6 +9,7 @@ import datetime as d
 from .forms import *
 
 form_solicitud = None
+correo = ""
 
 # Pantalla de inicio
 def index(request):
@@ -48,6 +50,7 @@ def inscripcion_datos(request):
 	
 	try:
 		global form_solicitud
+		global correo
 		form_datos_p = FormDatosPersonalesAlumnoIns(request.POST)
 		form_datos_a = FormDatosAcademicosAlumnoIns(request.POST)
 		new_form_datos_p = form_datos_p.save()
@@ -56,6 +59,7 @@ def inscripcion_datos(request):
 			datos_personales = new_form_datos_p,
 			datos_academicos = new_form_datos_a
 		)
+		correo = request.POST["correo_1"]
 		form_solicitud = new_form_inscripcion
 		return redirect('inscripcion_antecedentes')
 	except Exception as error:
@@ -147,6 +151,7 @@ def inscripcion_firmas(request):
 			solicitud.firma_alumno = "on" in request.POST.get('firma_alumno')
 			solicitud.aviso_privacidad = "on" in request.POST.get('aviso_privacidad')
 			solicitud.save()
+			enviar_correo(solicitud.id,"Solicitud de Inscripción")
 			return redirect('success',solicitud.id)
 	except Exception as error:
 		return render(request,"inscripcion/inscripcionFirmas.html",{
@@ -201,8 +206,12 @@ def reinscripcion(request):
 						id_solicitud_reinscripcion = new_form_reinscripcicon,
 						id_programa_semestral = form_programa
 					)
+				global correo
+				correo = request.POST["correo_1"]
+				enviar_correo(new_form_reinscripcicon.id,"Solicitud de Reinscripción")
+
 			else:
-				print(forms_programa.errors)		
+				print(forms_programa.errors)	
 			return redirect('success',new_form_reinscripcicon.id)
 	except Exception as error:
 		forms_programa = FormsetProgramaSem()
@@ -267,6 +276,9 @@ def programa_actividades(request):
 						id_constancia_programa_individual = new_form_constancia,
 						id_programa_actividades = form_programa
 					)
+				global correo
+				correo = request.POST["correo_1"]
+				enviar_correo(solicitud.id,"Inscripcion al programa individual de Actividades")
 			else:
 				print(forms_programa.errors)		
 			return redirect('success',new_form_constancia.id)
@@ -313,6 +325,9 @@ def tesis_registro(request):
 			new_form_tesis.datos_personales = new_form_datos_p
 			new_form_tesis.datos_academicos = new_form_datos_a
 			new_form_tesis.save()
+			global correo
+			correo = request.POST["correo_1"]
+			enviar_correo(solicitud.id,"Acta de registro de tema de tesis")
 			return redirect('success',form_tesis.id)
 		
 	except Exception as error:
@@ -364,8 +379,8 @@ def signup(request):
 	if request.POST["password1"] == request.POST["password2"]:
 		try:
 			user = User.objects.create_user(username=request.POST["username"], password=request.POST["password1"])
+			user.is_active = False
 			user.save()
-			login(request,user)
 			return redirect("success","0")
 		except Exception as error:
 			return render(request,"signup.html", {
@@ -378,16 +393,23 @@ def signin(request):
 		return render(request, "signin.html",{
 			'form': AuthenticationForm
 		})
-	else:
+	try:
+		username=request.POST['username']
+		password=request.POST['password']
+		user = User.objects.get(username=username)
+		if not user.is_active:
+			return render(request, "signin.html", { "error": "Tu cuenta está inactiva. Contacta al administrador." })
 		user = authenticate(request,username=request.POST['username'],password=request.POST['password'])
 		if user is None:
 			return render(request, "signin.html",{
 				'form': AuthenticationForm,
-				'error': "Usuario o contraseña incorrecto"
+				'error': "Credenciales incorrectas. Intenta nuevamente"
 			})
 		else:
 			login(request,user)
 			return redirect('index')
+	except User.DoesNotExist:
+		return render(request, "signin.html", { "error": "Usuario no registrado." })
 
 #CERRAR SESIÓN --------------------------------------------------------------------------------
 @login_required
@@ -397,6 +419,18 @@ def signout(request):
 
 def success(request,folio):
 	return render(request, "success.html",{"folio":folio})
+
+def enviar_correo(id,tipo):
+    asunto = tipo
+    mensaje = "Guarda este numero y entregalo a los profesores correspondientes: "+str(id)
+    destinatario = correo
+    send_mail(
+		asunto,
+		mensaje,
+		'hernandez.hernandez.fabian@gmail.com',  # Desde este correo
+		[destinatario],  # A este correo
+		fail_silently=False,
+	)
 
 def creacion_calendario(request):
 	fechas = Calendario.objects.all()
@@ -411,7 +445,6 @@ def creacion_calendario(request):
 		return HttpResponse("Calendarios creados")
 	else:
 		return HttpResponse("Los calendarios ya fueron creados")
-#creacion_calendario()
 
 def crear_superusuario(request):
     if not User.objects.filter(username='admin').exists():
