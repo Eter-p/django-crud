@@ -7,10 +7,11 @@
 		<meta name="author" content="Fabian Hernandez">
 	</head>
 	<body>
+		{% load static %}
 		<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#952F57;">
 			<div class="container">
-				<!-- <div><img src="{% static 'logo_IPN.png' %}" alt="IPN" width="60"></div> -->
-				<!-- <div><img src="{% static 'logo_ESCOM.png' %}" alt="ESCOM" width="60"></div>   -->
+				<div><img src="{% static 'logo_IPN.png' %}" alt="IPN" width="60"></div>
+				<div><img src="{% static 'logo_ESCOM.png' %}" alt="ESCOM" width="60"></div>  
 				<a class="navbar-brand" href="#">SEPI-ESCOM</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -19,11 +20,11 @@
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav ms-auto">
 						<li class="nav-item"><a class="nav-link active" href="/">Inicio</a></li> 
-						<li class="nav-item"><a class="nav-link active" href="/admin">Administrador</a></li>
+						<li class="nav-item"><a class="nav-link active" href="/admin">Panel de Administrador</a></li>
 						{% if user.is_authenticated %}
 							<li class="nav-item"><a class="nav-link active" href="/logout">Cerrar sesion</a></li>
 						{% else %}
-							<li class="nav-item"><a class="nav-link active" href="/signup">Registrar</a></li>
+							<li class="nav-item"><a class="nav-link active" href="/signup">Registrar Docente</a></li>
 							<li class="nav-item"><a class="nav-link active" href="/signin">Iniciar Sesion</a></li>
 						{% endif %}
 					</ul>
