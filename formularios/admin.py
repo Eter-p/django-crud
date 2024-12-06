@@ -2,7 +2,11 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 
 from .models import *
-# Register your models here.
+
+admin.site.site_title = "SEPI - Administración"
+admin.site.site_header = "Panel de Administración"
+admin.site.index_title = "Bienvenido al Administrador"
+
 
 class SolicitudInscripcionAdmin(admin.ModelAdmin):
     list_display = ('datos_personales', 'datos_academicos','firma_asesor','firma_jefe')  # Campos que se mostrarán en la lista
@@ -11,12 +15,8 @@ class SolicitudInscripcionAdmin(admin.ModelAdmin):
 
 admin.site.register(SolicitudInscripcion, SolicitudInscripcionAdmin)
 
-
-
-
 admin.site.unregister(Group)
 admin.site.register(Calendario)
-# admin.site.register(SolicitudInscripcion)
 admin.site.register(SolicitudReinscripcion)
 admin.site.register(ConstanciaProgramaIndividual)
 admin.site.register(ActaRegistroTemaTesis)
