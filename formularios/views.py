@@ -456,3 +456,14 @@ def crear_superusuario(request):
         return HttpResponse("Superusuario creado exitosamente.")
     else:
         return HttpResponse("El superusuario ya existe.")
+
+@login_required
+def generar_pdf(request,nombre):
+	try:
+		return render(request,"pdfs/base_pdf.html",{
+		'titulo': nombre,
+		'abrir_en_nueva_pestana': True
+	})
+	except Exception as error:
+		return HttpResponse('Error al generar el PDF')
+	

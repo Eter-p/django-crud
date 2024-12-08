@@ -1,0 +1,13 @@
+{% for dato in datos %}
+    {% if dato.abrir_en_nueva_pestana %}
+        <p id="nombre_alumno_{{ forloop.counter }}" hidden>{{ dato.nombre }}</p>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const elem = document.getElementById('nombre_alumno_{{ forloop.counter }}')
+                const nomAlumno = elem.innerHTML
+                const ruta = "/pdf/" + nomAlumno
+                window.open(ruta, '_blank')
+            });
+        </script>
+    {% endif %}
+{% endfor %}

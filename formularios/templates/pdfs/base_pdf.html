@@ -1,0 +1,193 @@
+<!DOCTYPE html> <!--Documento HTML5-->
+<html lang="es">
+	<head>
+		<style>
+			.vertical-center {
+				margin: 0;
+				position: relative;
+				top: 50%;
+				-ms-transform: translateY(-50%);
+				transform: translateY(-50%);
+			}
+			.grid-container {
+				display: grid;
+				background-color: darkred;
+				gap: 0px;
+				padding: 0px;
+			}
+			
+			.titulo {background-color: #818181}
+			.label {background-color: #bebebe}
+			
+			.grid-item {background-color: rgba(255, 255, 255);font-family: Arial;border: 1px solid #000;}
+			
+			.logo {grid-column: 1;grid-row: 1 / span 3;}	
+			.instituto {grid-column: 2;grid-row: 1;font-size: 15;text-align: center;}
+			.secretaria {grid-column: 2;grid-row: 2;font-size: 12;text-align: center;}
+			.solicitud {grid-column: 2;grid-row: 3;font-size: 15;text-align: center;}
+			.sip {grid-column: 3;grid-row: 1;text-align: center;}
+			.foto {grid-column: 3;grid-row: 2;}
+			.datos {grid-column: 1 / span 3;grid-row: 4;text-align: center;}
+		
+			.nomtitulo {grid-column: 1 / 10;grid-row: 1;}
+			.apellmlabel {grid-column: 1;grid-row: 2;}	
+			.apellplabel {grid-column: 4;grid-row: 2;}
+			.nomlabel {grid-column: 7;grid-row: 2;}
+			.apellmin {grid-column: 2 / span 2;grid-row: 2;text-align: center;}
+			.apellpin {grid-column: 5 / span 2;grid-row: 2;text-align: center;}
+			.nomin {grid-column: 8 / span 2;grid-row: 2;text-align: center;}
+
+			.domtitulo {grid-column: 1 / 11;grid-row: 1;}
+			.callelabel {grid-column: 1;grid-row: 2;}	
+			.numextlabel {grid-column: 4;grid-row: 2;}
+			.numintlabel {grid-column: 6;grid-row: 2;}
+			.colonialabel {grid-column: 8;grid-row: 2;}
+			.callextin {grid-column: 2 / span 2;grid-row: 2;text-align: center;}
+			.numextin {grid-column: 5;grid-row: 2;text-align: center;}
+			.numintin {grid-column: 7;grid-row: 2;text-align: center;}
+			.coloniain {grid-column: 9 / span 2;grid-row: 2;text-align: center;}
+
+			.alcalabel {grid-column: 1;grid-row: 1;}
+			.cplabel {grid-column: 4;grid-row: 1;}
+			.estalabel {grid-column: 7;grid-row: 1;}
+			.paislabel {grid-column: 1;grid-row: 2;}	
+			.telclabel {grid-column: 4;grid-row: 2;}
+			.telmlabel {grid-column: 7;grid-row: 2;}
+			.sexolabel {grid-column: 1;grid-row: 2;}	
+			.cor1label {grid-column: 4;grid-row: 2;}
+			.cor2label {grid-column: 7;grid-row: 2;}
+			.alcain {grid-column: 2 / span 2;grid-row: 1;text-align: center;}
+			.cplin {grid-column: 5 / span 2;grid-row: 1;text-align: center;}
+			.estain {grid-column: 8 / span 2;grid-row: 1;text-align: center;}
+			.paisin {grid-column: 2 / span 2;grid-row: 2;text-align: center;}
+			.telclin {grid-column: 5 / span 2;grid-row: 2;text-align: center;}
+			.telmlin {grid-column: 8 / span 2;grid-row: 2;text-align: center;}
+			.sexoin{grid-column: 2 / span 2;grid-row: 2;text-align: center;}
+			.cor1in{grid-column: 5 / span 2;grid-row: 2;text-align: center;}
+			.cor2in{grid-column: 8 / span 2;grid-row: 2;text-align: center;}
+
+			.nomunlabel {grid-column: 1;grid-row: 1;text-align: center;}
+			.nomprlabel {grid-column: 2;grid-row: 1;text-align: center;}
+			.nomunin {grid-column: 1;grid-row: 2;text-align: center;}
+			.nomprin {grid-column: 2;grid-row: 2;text-align: center;}
+
+			.antecedentes {grid-column: 1 / span 5;grid-row: 4;text-align: center;}
+			.nivel {grid-column: 1;grid-row: 2;}
+			.programa {grid-column: 2;grid-row: 2;}
+			.institucion {grid-column: 3;grid-row: 2;}
+			.estado {grid-column: 4;grid-row: 2;}
+			.graduacion {grid-column: 5;grid-row: 2;}
+			.licenciatura {grid-column: 1;grid-row: 2;}
+			.prolicin {grid-column: 2;grid-row: 3;}
+			.inslicin {grid-column: 3;grid-row: 3;}
+			.estlicin {grid-column: 4;grid-row: 3;}
+			.feclicin {grid-column: 5;grid-row: 3;}
+			.licenciatura {grid-column: 1;grid-row: 2;}
+			.prolicin {grid-column: 2;grid-row: 3;}
+			.inslicin {grid-column: 3;grid-row: 3;}
+			.estlicin {grid-column: 4;grid-row: 3;}
+			.feclicin {grid-column: 5;grid-row: 3;}
+			.licenciatura {grid-column: 1;grid-row: 2;}
+			.prolicin {grid-column: 2;grid-row: 3;}
+			.inslicin {grid-column: 3;grid-row: 3;}
+			.estlicin {grid-column: 4;grid-row: 3;}
+			.feclicin {grid-column: 5;grid-row: 3;}
+			.licenciatura {grid-column: 1;grid-row: 2;}
+			.prolicin {grid-column: 2;grid-row: 3;}
+			.inslicin {grid-column: 3;grid-row: 3;}
+			.estlicin {grid-column: 4;grid-row: 3;}
+			.feclicin {grid-column: 5;grid-row: 3;}
+
+			@media print{
+				.grid-container{background-color: white;border: 0px}
+				.grid-item {background-color: rgba(255, 255, 255);font-family: Arial;border: 0px;font-size: 13px}
+				.fontg{font-size: 16px}
+				.b1{border-left: 1px solid #000}
+				.b2{border-top: 1px solid #000}
+				.b3{border-bottom: 1px solid #000}
+				.b4{border-right: 1px solid #000}
+				.titulo {background-color: #818181}
+				.label {background-color: #bebebe}
+				.navbar, .footer {display: none;}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="grid-container">
+			<div class="grid-item logo"><img src="https://jrodp.wordpress.com/wp-content/uploads/2014/04/logoipn-negro.png" alt="LOGO" width="60"></div>
+			<div class="grid-item instituto fontg"><div class="vertical-center"><b>INSTITUTO POLITÉCNICO NACIONAL</b></div></div>
+			<div class="grid-item secretaria"><b>Secretaría de Investigación y Posgrado<br>Dirección de Posgrado</b></div>
+			<div class="grid-item solicitud fontg"><i>“SOLICITUD DE INSCRIPCIÓN AL PROGRAMA ACADÉMICO DE POSGRADO”</i></div>  
+			<div class="grid-item sip">SIP-1<br>REP 2017</div>
+			<div class="grid-item foto">FOTO</div>
+			<div class="grid-item datos"><i><b><br>DATOS DEL SOLICITANTE</b></i></div>
+		</div>
+		<div class="grid-container">
+			<div class="grid-item b1 b2 b3 b4 titulo nomtitulo">Nombre</div>
+			<div class="grid-item b1 b4 label apellmlabel"><b>Apellido<br>Paterno:</b></div>
+			<div class="grid-item b4 apellmin">{{titulo}}</div>
+			<div class="grid-item b4 label apellplabel"><b>Apellido<br>Materno:</b></div>  
+			<div class="grid-item b4 apellpin">{{titulo}}</div>
+			<div class="grid-item b4 label nomlabel"><div class="vertical-center"><b>Nombre(s):</b></div></div>
+			<div class="grid-item b4 nomin">{{titulo}}</div>
+		</div>
+		<div class="grid-container">
+			<div class="grid-item b1 b2 b3 b4 titulo domtitulo">Domicilio</div>
+			<div class="grid-item b1 b4 callelabel"><b>Calle:</b></div>
+			<div class="grid-item callein">{{calle}}</div>
+			<div class="grid-item b1 b4 label numextlabel"><b>Numero<br>exterior:</b></div>
+			<div class="grid-item b4 numextin">{{titulo}}</div>
+			<div class="grid-item b4 label numintlabel"><b>Numero<br>interior:</b></div>
+			<div class="grid-item b4 numintin">{{titulo}}</div>
+			<div class="grid-item b1 b4 label colonialabel"><b>Colonia:</b></div>  
+			<div class="grid-item b4 coloniain">{{titulo}}</div>
+		</div>
+		<div class="grid-container">
+			<div class="grid-item b1 b2 b4 label alcalabel"><b>Alcaldía o<br>Municipio:</b></div>
+			<div class="grid-item b1 b4 alcain">{{calle}}</div>
+			<div class="grid-item b2 label cplabel"><b>Código<br>Postal:</b></div>
+			<div class="grid-item b1 b4 b2 cplin">{{titulo}}</div>
+			<div class="grid-item b4 b2 label estalabel"><b>Estado:</b></div>
+			<div class="grid-item b4 b2 estain">{{titulo}}</div>
+			<div class="grid-item b4 b2 label paislabel"><b>País:</b></div>  
+			<div class="grid-item b4 b2 paisin">{{titulo}}</div>
+			<div class="grid-item b4 b2 label telclabel"><b>Teléfono<br>Casa:</b></div>
+			<div class="grid-item b4 b2 telclin">{{titulo}}</div>
+			<div class="grid-item b4 b2 label telmlabel"><b>Teléfono<br>móvil:</b></div>
+			<div class="grid-item b4 b2 telmlin">{{titulo}}</div>
+			<div class="grid-item b1 b3 b4 b2 label sexolabel"><b>Sexo:</b></div>  
+			<div class="grid-item b4 b2 b3 sexoin">{{titulo}}</div>
+			<div class="grid-item b4 b2 b3 label cor1label"><b>Correo<br>electrónico 1:</b></div>
+			<div class="grid-item b4 b2 b3 cor1in">{{titulo}}</div>
+			<div class="grid-item b4 b2 b3 label cor2label"><b>Correo<br>electrónico 2:</b></div>  
+			<div class="grid-item b4 b2 b3 cor2in">{{titulo}}</div>
+		</div>
+		<br>
+		<div class="grid-container">
+			<div class="grid-item b1 b2 b3 b4 titulo nomunlabel"><b>Nombre de la unidad académica</b></div>
+			<div class="grid-item b1 b3 b4 nomunin">{{titulo}}</div>
+			<div class="grid-item b2 b3 b4 titulo nomprlabel"><b>Nombre del programa Académico de Posgrado</b></div>  
+			<div class="grid-item b3 b4 nomprin">{{titulo}}</div>
+		</div>
+		<div class="grid-container">
+			<div class="grid-item b1 b2 b4 label alcalabel"><b>Alcaldía o<br>Municipio:</b></div>
+			<div class="grid-item b1 b4 alcain">{{calle}}</div>
+			<div class="grid-item b2 label cplabel"><b>Código<br>Postal:</b></div>
+			<div class="grid-item b1 b4 b2 cplin">{{titulo}}</div>
+			<div class="grid-item b4 b2 label estalabel"><b>Estado:</b></div>
+			<div class="grid-item b4 b2 estain">{{titulo}}</div>
+			<div class="grid-item b4 b2 label paislabel"><b>País:</b></div>  
+			<div class="grid-item b4 b2 paisin">{{titulo}}</div>
+			<div class="grid-item b4 b2 label telclabel"><b>Teléfono<br>Casa:</b></div>
+			<div class="grid-item b4 b2 telclin">{{titulo}}</div>
+			<div class="grid-item b4 b2 label telmlabel"><b>Teléfono<br>móvil:</b></div>
+			<div class="grid-item b4 b2 telmlin">{{titulo}}</div>
+			<div class="grid-item b1 b3 b4 b2 label sexolabel"><b>Sexo:</b></div>  
+			<div class="grid-item b4 b2 b3 sexoin">{{titulo}}</div>
+			<div class="grid-item b4 b2 b3 label cor1label"><b>Correo<br>electrónico 1:</b></div>
+			<div class="grid-item b4 b2 b3 cor1in">{{titulo}}</div>
+			<div class="grid-item b4 b2 b3 label cor2label"><b>Correo<br>electrónico 2:</b></div>  
+			<div class="grid-item b4 b2 b3 cor2in">{{titulo}}</div>
+		</div>
+	</body>
+</html>
