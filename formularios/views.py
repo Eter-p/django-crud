@@ -1,15 +1,23 @@
-from django.shortcuts import render,redirect,get_object_or_404
-from django.core.mail import send_mail
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
-from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, logout, authenticate
-import datetime as d
 from .forms import *
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.shortcuts import render,redirect,get_object_or_404
+
+import datetime as d
+import ast
 
 form_solicitud = None
 correo = ""
+
+def comprueba_firma(dato):
+	if dato == None:
+		return False
+	else:
+		return "on" in dato
 
 # Pantalla de inicio
 def index(request):
@@ -142,14 +150,19 @@ def inscripcion_firmas(request):
 	try:
 		if request.user.is_authenticated:
 			solicitud = get_object_or_404(SolicitudInscripcion,pk=request.POST.get('id_solicitud'))
-			solicitud.firma_asesor = "on" in request.POST.get('firma_asesor')
-			solicitud.firma_jefe = "on" in request.POST.get('firma_jefe')
+			firma_asesor = comprueba_firma(request.POST.get("firma_asesor"))
+			solicitud.firma_asesor = firma_asesor
+			if firma_asesor: solicitud.asesor = request.user.username
+			firma_jefe = comprueba_firma(request.POST.get("firma_jefe"))
+			solicitud.firma_jefe = firma_jefe
+			if firma_jefe: solicitud.jefe = request.user.username
 			solicitud.save()
 			return redirect('success',"0")
 		else:
+			solicitud.fecha = request.POST.get("Fecha")
 			solicitud = get_object_or_404(SolicitudInscripcion,pk=form_solicitud.id)
-			solicitud.firma_alumno = "on" in request.POST.get('firma_alumno')
-			solicitud.aviso_privacidad = "on" in request.POST.get('aviso_privacidad')
+			solicitud.firma_alumno = comprueba_firma(request.POST.get("firma_alumno"))
+			solicitud.aviso_privacidad = comprueba_firma(request.POST.get("aviso_privacidad"))
 			solicitud.save()
 			enviar_correo(solicitud.id,"Solicitud de Inscripción")
 			return redirect('success',solicitud.id)
@@ -173,8 +186,8 @@ def reinscripcion(request):
 	try:
 		if request.user.is_authenticated:
 			solicitud = get_object_or_404(SolicitudReinscripcion,pk=request.POST.get('id_solicitud'))
-			solicitud.firma_asesor = "on" in request.POST.get('firma_asesor')
-			solicitud.firma_jefe = "on" in request.POST.get('firma_jefe')
+			solicitud.firma_asesor = comprueba_firma(request.POST.get("firma_asesor"))
+			solicitud.firma_jefe = comprueba_firma(request.POST.get("firma_jefe"))
 			solicitud.save()
 			return redirect('success',"0")
 		else:
@@ -237,8 +250,8 @@ def programa_actividades(request):
 	try:
 		if request.user.is_authenticated:
 			solicitud = get_object_or_404(ConstanciaProgramaIndividual,pk=request.POST.get('id_solicitud'))
-			solicitud.firma_asesor = "on" in request.POST.get('firma_asesor')
-			solicitud.firma_jefe = "on" in request.POST.get('firma_jefe')
+			solicitud.firma_asesor = comprueba_firma(request.POST.get("firma_asesor"))
+			solicitud.firma_jefe = comprueba_firma(request.POST.get("firma_jefe"))
 			solicitud.save()
 			return redirect('success',"0")
 		else:
@@ -310,9 +323,9 @@ def tesis_registro(request):
 			form_colegio = FormColegioProfesoresPosgrado(request.POST)
 			new_form_colegio = form_colegio.save()
 			solicitud.colegio_profesores = new_form_colegio
-			solicitud.firma_director_1 = "on" in request.POST.get('firma_director_1')
-			solicitud.firma_director_2 = "on" in request.POST.get('firma_director_2')
-			solicitud.firma_presidente_colegio = "on" in request.POST.get('firma_presidente_colegio')
+			solicitud.firma_director_1 = comprueba_firma(request.POST.get("firma_director_1"))
+			solicitud.firma_director_2 = comprueba_firma(request.POST.get("firma_director_2"))
+			solicitud.firma_presidente_colegio = comprueba_firma(request.POST.get("firma_presidente_colegio"))
 			solicitud.save()
 			return redirect('success',"0")
 		else:
@@ -458,12 +471,12 @@ def crear_superusuario(request):
         return HttpResponse("El superusuario ya existe.")
 
 @login_required
-def generar_pdf(request,nombre):
+def generar_pdf(request):
 	try:
-		return render(request,"pdfs/base_pdf.html",{
-		'titulo': nombre,
-		'abrir_en_nueva_pestana': True
-	})
+		data_string = request.POST.get("dato")
+		data_dict = ast.literal_eval(data_string)
+		data_dict["antecedentes"] = ast.literal_eval(data_dict["antecedentes"])
+		data_dict["programa"] = ast.literal_eval(data_dict["programa"])
+		return render(request, "pdfs/base_pdf.html", data_dict)
 	except Exception as error:
-		return HttpResponse('Error al generar el PDF')
-	
+		return HttpResponse(f'Error al generar el PDF{error}')

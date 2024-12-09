@@ -10,7 +10,13 @@ class DatosPersonalesAlumno(models.Model):
     apellido_paterno = models.CharField(max_length=100)
     apellido_materno = models.CharField(max_length=100)
     nombre = models.CharField(max_length=100)
-    domicilio = models.CharField(max_length=255,blank=True, null=True)
+    calle = models.CharField(max_length=255,blank=True, null=True)
+    numero_exterior = models.CharField(max_length=255,blank=True, null=True)
+    numero_interior = models.CharField(max_length=255,blank=True, null=True)
+    colonia = models.CharField(max_length=255,blank=True, null=True)
+    municipio = models.CharField(max_length=255,blank=True, null=True)
+    codigo_postal = models.CharField(max_length=255,blank=True, null=True)
+    estado = models.CharField(max_length=255,blank=True, null=True)
     telefono_casa = models.CharField(max_length=20,blank=True, null=True)
     telefono_movil = models.CharField(max_length=20,blank=True, null=True)
     genero = models.CharField(max_length=1,choices=GENERO_CHOICE,default=None,blank=True, null=True)
@@ -20,6 +26,10 @@ class DatosPersonalesAlumno(models.Model):
     def __str__(self):
         return f"{self.apellido_paterno} {self.apellido_materno} {self.nombre}"
     
+    class Meta:
+        verbose_name = "Tabla de Datos personales"
+        verbose_name_plural = "Tabla de Datos personales"
+    
 # DATOS_ACADEMICOS_ALUMNO
 class DatosAcademicosAlumno(models.Model):
     ESTATUS_CHOICE = [
@@ -27,7 +37,7 @@ class DatosAcademicosAlumno(models.Model):
         ('Parcial', 'Tiempo Parcial'),
     ]
     boleta = models.CharField(max_length=50,blank=True,null=True)
-    unidad_academica_actual = models.CharField(max_length=100,blank=True,null=True)
+    unidad_academica_actual = models.CharField(max_length=100,blank=True,null=True,default="ESCOM")
     nom_programa_actual = models.CharField(max_length=100)
     estatus = models.CharField(max_length=8, choices=ESTATUS_CHOICE, default='Completo',blank=True,null=True)
 
@@ -36,6 +46,10 @@ class DatosAcademicosAlumno(models.Model):
             return f"{self.boleta}"
         else:
             return f"Sin boleta {self.id}"
+
+    class Meta:
+        verbose_name = "Tabla de Datos Académicos"
+        verbose_name_plural = "Tabla de Datos Académicos"
 
 # ANTECEDENTES_ACADEMICOS
 class AntecedentesAcademicos(models.Model):
@@ -47,38 +61,61 @@ class AntecedentesAcademicos(models.Model):
     ]
     nivel_academico_cursado = models.CharField(max_length=12,choices=NIVEL_CHOICE,default='Licenciatura')
     programa_academico_cursado = models.CharField(max_length=100)
-    institucion_donde_curso = models.CharField(max_length=255)
+    institucion_donde_curso = models.CharField(max_length=255,default="ESCOM")
     estado_institucion = models.CharField(max_length=100)
     fecha_graduacion = models.DateField(null=True,blank=True)
 
     def __str__(self):
         return self.programa_academico_cursado
+    
+    class Meta:
+        verbose_name = "Tabla de Antecedentes Académicos"
+        verbose_name_plural = "Tabla de Antecedentes Académicos"
 
 # PROGRAMA_SEMESTRAL
 class ProgramaSemestral(models.Model):
     UNIDADES = [
-        ("09B5786","Métodos matemáticos para el análisis de sistemas y señales"),
-        ("09B5787","Fundamentos de comunicaciones móviles"),
-        ("O1","Optativa I"),
-        ("09B5789","Seminario I"),
-        ("09B5791","Arquitectura de dispositivos móviles"),
-        ("O2","Optativa II"),
-        ("05B4670","Trabajo tesis"),
-        ("09B5792","Seminario II"),
-        ("O3","Optativa III"),
-        ("O4","Optativa IV"),
-        ("05B4670","Trabajo tesis"),
-        ("09B5794","Seminario III"),
-        ("13A6641","Seminario IV"),
-        ("TESIS","Tesis")
+        ("Métodos matemáticos para el análisis de sistemas y señales","Métodos matemáticos para el análisis de sistemas y señales"),
+        ("Fundamentos de comunicaciones móviles","Fundamentos de comunicaciones móviles"),
+        ("Optativa I","Optativa I"),
+        ("Seminario I","Seminario I"),
+        ("Arquitectura de dispositivos móviles","Arquitectura de dispositivos móviles"),
+        ("Optativa II","Optativa II"),
+        ("Trabajo tesis","Trabajo tesis"),
+        ("Seminario II","Seminario II"),
+        ("Optativa III","Optativa III"),
+        ("Optativa IV","Optativa IV"),
+        ("Trabajo tesis","Trabajo tesis"),
+        ("Seminario III","Seminario III"),
+        ("Seminario IV","Seminario IV"),
+        ("Tesis","Tesis")
     ]
-    clave = models.CharField(max_length=50)
-    unidad_aprendizaje = models.CharField(max_length=100,choices=UNIDADES,default="el")
+    CLAVES = [
+        ("09B5786","09B5786"),
+        ("09B5787","09B5787"),
+        ("000OPT1","00000O1"),
+        ("09B5789","09B5789"),
+        ("09B5791","09B5791"),
+        ("000OPT2","00000O2"),
+        ("05B4670","05B4670"),
+        ("09B5792","09B5792"),
+        ("000OPT3","00000O3"),
+        ("000OPT4","00000O4"),
+        ("05B4670","05B4670"),
+        ("09B5794","09B5794"),
+        ("13A6641","13A6641"),
+        ("00TESIS","00TESIS")
+    ]
+    clave = models.CharField(max_length=7,choices=CLAVES)
+    unidad_aprendizaje = models.CharField(max_length=100,choices=UNIDADES)
     profesor = models.CharField(max_length=100)
     lugar_realizacion = models.CharField(max_length=255,default="ESCOM")
 
     def __str__(self):
         return self.unidad_aprendizaje
+    class Meta:
+        verbose_name = "Tabla de Programa Académico"
+        verbose_name_plural = "Tabla de Programa Académico"
 
 # SOLICITUD_INSCRIPCION
 class SolicitudInscripcion(models.Model):
@@ -86,8 +123,11 @@ class SolicitudInscripcion(models.Model):
     datos_academicos = models.ForeignKey(DatosAcademicosAlumno, on_delete=models.CASCADE)
     firma_alumno = models.BooleanField(null=True,blank=True)
     firma_asesor = models.BooleanField(null=True,blank=True)
+    asesor = models.CharField(max_length=100,null=True,blank=True)
     firma_jefe = models.BooleanField(null=True,blank=True)
+    jefe = models.CharField(max_length=100,null=True,blank=True)
     aviso_privacidad = models.BooleanField(null=True,blank=True)
+    fecha = models.DateField(null=True,blank=True)
 
     def __str__(self):
         return f"Solicitud de Inscripción {self.id} : {self.datos_personales} - {self.datos_academicos}"
@@ -104,6 +144,9 @@ class InscripcionAntecedentes(models.Model):
 
     def __str__(self):
         return f"{self.id}"
+    class Meta:
+        verbose_name = "Tabla Solicitud de incripción - Antecedentes"
+        verbose_name_plural = "Tabla Solicitudes de incripción - Antecedentes"
 
 # INSCRIPCION_PROGRAMA
 class InscripcionPrograma(models.Model):
@@ -112,6 +155,10 @@ class InscripcionPrograma(models.Model):
 
     def __str__(self):
         return f"{self.id}"
+    
+    class Meta:
+        verbose_name = "Tabla Solicitud de incripción - Antecedentes"
+        verbose_name_plural = "Tabla Solicitudes de incripción - Programa"
 
 # SOLICITUD_REINSCRIPCION
 class SolicitudReinscripcion(models.Model):
@@ -158,6 +205,10 @@ class DatosAsesor(models.Model):
 
     def __str__(self):
         return f"{self.apellido_paterno} {self.apellido_materno} {self.nombre}"
+    
+    class Meta:
+        verbose_name = "Tabla de datos del asesor"
+        verbose_name_plural = "Tabla de datos del asesores"
 
 # CONSTANCIA_PROGRAMA_INDIVIDUAL
 class ConstanciaProgramaIndividual(models.Model):
@@ -187,6 +238,10 @@ class ColegioProfesoresPosgrado(models.Model):
 
     def __str__(self):
         return self.nombre_sesion + " No. " + self.numero_sesion
+    
+    class Meta:
+        verbose_name = "Tabla del colegio de profesores"
+        verbose_name_plural = "Tabla del colegio de profesores"
 
 
 # ACTA_REGISTRO_TEMA_TESIS
@@ -240,8 +295,8 @@ class ActaRevisionTesis(models.Model):
         return f"Acta de Revision de tesis {self.id}"
     
     class Meta:
-        verbose_name = "Acta de Revision de tesis"
-        verbose_name_plural = "Actas de Revision de tesis"
+        verbose_name = "Acta de Revisión de tesis"
+        verbose_name_plural = "Actas de Revisión de tesis"
 
 # PROGRAMA_ACTIVIDADES
 class ProgramaActividades(models.Model):
@@ -258,6 +313,10 @@ class ProgramaActividades(models.Model):
     
     def __str__(self):
         return self.clave
+    
+    class Meta:
+        verbose_name = "Tabla del programa de actividades"
+        verbose_name_plural = "Tabla del programa de actividades"
 
 # CONSTANCIA_PROGRAMA
 class ConstanciaPrograma(models.Model):

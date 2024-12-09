@@ -4,7 +4,7 @@
 <div id="contenido">		
 	<section class="card-body">
 		<div class="card card-body">
-			<h1 class="display-3 text-center">!Bienvenido al Sistema Integral de Gestión de Trámites de Posgrado de ESCOM!</h1>
+			<h1 class="display-3 text-center">¡Bienvenido al Sistema Integral de Gestión de Trámites de Posgrado de ESCOM!</h1>
 			<p class="text-center">
 				Este sitio ha sido diseñado pensando en ti, para simplificar y agilizar todos los procesos relacionados con tu experiencia académica de posgrado. Aquí podrás gestionar tus solicitudes, dar seguimiento a tus trámites, programar actividades clave como defensas de tesis, y mucho más.
 				Nuestro objetivo es garantizar transparencia, eficiencia y una experiencia fluida tanto para estudiantes como para el personal administrativo. Si necesitas ayuda o tienes alguna consulta, estamos aquí para apoyarte en cada paso del camino.
@@ -24,7 +24,7 @@
 				{% if user.is_authenticated %}
 					<li class="list-group-item"><a class="nav-link active" href="/logout">
 						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1">Cerrar sesion</h5>
+							<h5 class="mb-1">Cerrar Sesión</h5>
 						</div></a></li>
 				{% else %}
 					<li class="list-group-item"><a class="nav-link active" href="/signup">
@@ -34,12 +34,12 @@
 					</li>
 					<li class="list-group-item"><a class="nav-link active" href="/signin">
 						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1">Iniciar Sesion</h5>
+							<h5 class="mb-1">Iniciar Sesión como Docente</h5>
 						</div></a>
 					</li>
 					<li class="list-group-item"><a class="nav-link active" href="/admin">
 						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1">Iniciar sesion como administrador</h5>
+							<h5 class="mb-1">Iniciar Sesión como administrador</h5>
 						</div></a>
 					</li>
 				{% endif %}

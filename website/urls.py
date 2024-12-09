@@ -37,5 +37,5 @@ urlpatterns = [
     path('success/<str:folio>',views.success,name='success'),
     path('superusuario/', views.crear_superusuario, name='crear_superusuario'),
     path('calendario/', views.creacion_calendario, name='creacion_calendario'),
-    path('pdf/<str:nombre>', views.generar_pdf, name='generar_pdf'),
+    path('pdf/', views.generar_pdf, name='generar_pdf')
 ]

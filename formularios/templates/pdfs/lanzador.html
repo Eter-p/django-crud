@@ -1,13 +1,24 @@
-{% for dato in datos %}
-    {% if dato.abrir_en_nueva_pestana %}
-        <p id="nombre_alumno_{{ forloop.counter }}" hidden>{{ dato.nombre }}</p>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const elem = document.getElementById('nombre_alumno_{{ forloop.counter }}')
-                const nomAlumno = elem.innerHTML
-                const ruta = "/pdf/" + nomAlumno
-                window.open(ruta, '_blank')
-            });
-        </script>
-    {% endif %}
-{% endfor %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procesar Lista de Datos</title>
+    <script>
+        window.onload = function () {
+            const formularios = document.querySelectorAll("form");
+            formularios.forEach(form => form.submit());
+        };
+    </script>
+</head>
+<body>
+    {% for dato in datos %}
+    <form action="/pdf/" method="post" target="_blank">
+        {% csrf_token %}
+        <label hidden>{{ dato }}</label>
+        <input type="hidden" name="dato" value="{{ dato }}">
+    </form>
+    {% endfor %}
+
+</body>
+</html>

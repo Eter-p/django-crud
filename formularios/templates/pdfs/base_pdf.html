@@ -1,6 +1,7 @@
 <!DOCTYPE html> <!--Documento HTML5-->
 <html lang="es">
 	<head>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 		<style>
 			.vertical-center {
 				margin: 0;
@@ -11,7 +12,7 @@
 			}
 			.grid-container {
 				display: grid;
-				background-color: darkred;
+				background-color: #fff;
 				gap: 0px;
 				padding: 0px;
 			}
@@ -19,7 +20,7 @@
 			.titulo {background-color: #818181}
 			.label {background-color: #bebebe}
 			
-			.grid-item {background-color: rgba(255, 255, 255);font-family: Arial;border: 1px solid #000;}
+			.grid-item {background-color: #fff;font-family: Arial;border: 1px solid #000;}
 			
 			.logo {grid-column: 1;grid-row: 1 / span 3;}	
 			.instituto {grid-column: 2;grid-row: 1;font-size: 15;text-align: center;}
@@ -71,32 +72,40 @@
 			.nomunin {grid-column: 1;grid-row: 2;text-align: center;}
 			.nomprin {grid-column: 2;grid-row: 2;text-align: center;}
 
-			.antecedentes {grid-column: 1 / span 5;grid-row: 4;text-align: center;}
+			.antecedentes {grid-column: 1 / span 5;grid-row: 1;text-align: center;}
 			.nivel {grid-column: 1;grid-row: 2;}
 			.programa {grid-column: 2;grid-row: 2;}
 			.institucion {grid-column: 3;grid-row: 2;}
 			.estado {grid-column: 4;grid-row: 2;}
 			.graduacion {grid-column: 5;grid-row: 2;}
-			.licenciatura {grid-column: 1;grid-row: 2;}
-			.prolicin {grid-column: 2;grid-row: 3;}
-			.inslicin {grid-column: 3;grid-row: 3;}
-			.estlicin {grid-column: 4;grid-row: 3;}
-			.feclicin {grid-column: 5;grid-row: 3;}
-			.licenciatura {grid-column: 1;grid-row: 2;}
-			.prolicin {grid-column: 2;grid-row: 3;}
-			.inslicin {grid-column: 3;grid-row: 3;}
-			.estlicin {grid-column: 4;grid-row: 3;}
-			.feclicin {grid-column: 5;grid-row: 3;}
-			.licenciatura {grid-column: 1;grid-row: 2;}
-			.prolicin {grid-column: 2;grid-row: 3;}
-			.inslicin {grid-column: 3;grid-row: 3;}
-			.estlicin {grid-column: 4;grid-row: 3;}
-			.feclicin {grid-column: 5;grid-row: 3;}
-			.licenciatura {grid-column: 1;grid-row: 2;}
-			.prolicin {grid-column: 2;grid-row: 3;}
-			.inslicin {grid-column: 3;grid-row: 3;}
-			.estlicin {grid-column: 4;grid-row: 3;}
-			.feclicin {grid-column: 5;grid-row: 3;}
+
+			.programat {grid-column: 1 / span 4;grid-row: 1;text-align: center;}
+			.estatus {grid-column: 1;grid-row: 2;}
+			.protiempo {grid-column: 2;grid-row: 2;}
+			.vacio {grid-column: 3 / span 2;grid-row: 2;}
+			.vacio2 {grid-column: 1 / span 4;grid-row: 3;text-align: center;}
+
+			.clave {grid-column: 1;grid-row: 1;}
+			.actividad {grid-column: 2;grid-row: 1;}
+			.profesor {grid-column: 3;grid-row: 1;}
+			.unidad {grid-column: 4;grid-row: 1;}
+
+			.manifiesto {grid-column: 1;grid-row: 1}
+
+			.alumno {grid-column: 1;grid-row: 1;text-align: center;}
+			.asesor {grid-column: 2;grid-row: 1;text-align: center;}
+			.jefe {grid-column: 3;grid-row: 1;text-align: center;}
+			.vacio3 {grid-column: 1 / span 3;grid-row: 2;}
+			.alufirma {grid-column: 1;grid-row: 3;text-align: center;}
+			.asefirma {grid-column: 2;grid-row: 3;text-align: center;}
+			.jeffirma {grid-column: 3;grid-row: 3;text-align: center;}
+
+			.fechalabel {grid-column: 1;grid-row: 1;text-align: center;}
+			.fechain {grid-column: 2 ;grid-row: 1;text-align: center;}
+			.vacio4 {grid-column: 3 ;grid-row: 1;}
+			.aviso {grid-column: 1 / span 3;grid-row: 2;text-align: center;}
+			.texto {grid-column: 1 / span 3;grid-row: 3;text-align: justify;}
+			.acept {grid-column: 1 / span 3;grid-row: 4;text-align: center;}
 
 			@media print{
 				.grid-container{background-color: white;border: 0px}
@@ -109,85 +118,126 @@
 				.titulo {background-color: #818181}
 				.label {background-color: #bebebe}
 				.navbar, .footer {display: none;}
+				.ocultar{display: none}
 			}
 		</style>
 	</head>
 	<body>
+		<div class="ocultar grid-container">
+			<input type="button" value="IMPRIMIR REPORTE" class="btn btn-info" onclick="window.print();">
+		</div>
 		<div class="grid-container">
 			<div class="grid-item logo"><img src="https://jrodp.wordpress.com/wp-content/uploads/2014/04/logoipn-negro.png" alt="LOGO" width="60"></div>
 			<div class="grid-item instituto fontg"><div class="vertical-center"><b>INSTITUTO POLITÉCNICO NACIONAL</b></div></div>
 			<div class="grid-item secretaria"><b>Secretaría de Investigación y Posgrado<br>Dirección de Posgrado</b></div>
 			<div class="grid-item solicitud fontg"><i>“SOLICITUD DE INSCRIPCIÓN AL PROGRAMA ACADÉMICO DE POSGRADO”</i></div>  
 			<div class="grid-item sip">SIP-1<br>REP 2017</div>
-			<div class="grid-item foto">FOTO</div>
-			<div class="grid-item datos"><i><b><br>DATOS DEL SOLICITANTE</b></i></div>
+			<div class="grid-item foto"></div>
+			<div class="grid-item datos fontg"><i><b><br>DATOS DEL SOLICITANTE</b></i></div>
 		</div>
 		<div class="grid-container">
 			<div class="grid-item b1 b2 b3 b4 titulo nomtitulo">Nombre</div>
 			<div class="grid-item b1 b4 label apellmlabel"><b>Apellido<br>Paterno:</b></div>
-			<div class="grid-item b4 apellmin">{{titulo}}</div>
+			<div class="grid-item b4 apellmin">{{apellido_materno}}</div>
 			<div class="grid-item b4 label apellplabel"><b>Apellido<br>Materno:</b></div>  
-			<div class="grid-item b4 apellpin">{{titulo}}</div>
+			<div class="grid-item b4 apellpin">{{apellido_paterno}}</div>
 			<div class="grid-item b4 label nomlabel"><div class="vertical-center"><b>Nombre(s):</b></div></div>
-			<div class="grid-item b4 nomin">{{titulo}}</div>
+			<div class="grid-item b4 nomin">{{nombre}}</div>
 		</div>
 		<div class="grid-container">
 			<div class="grid-item b1 b2 b3 b4 titulo domtitulo">Domicilio</div>
 			<div class="grid-item b1 b4 callelabel"><b>Calle:</b></div>
 			<div class="grid-item callein">{{calle}}</div>
 			<div class="grid-item b1 b4 label numextlabel"><b>Numero<br>exterior:</b></div>
-			<div class="grid-item b4 numextin">{{titulo}}</div>
+			<div class="grid-item b4 numextin">{{numero_exterior}}</div>
 			<div class="grid-item b4 label numintlabel"><b>Numero<br>interior:</b></div>
-			<div class="grid-item b4 numintin">{{titulo}}</div>
+			<div class="grid-item b4 numintin">{{numero_interior}}</div>
 			<div class="grid-item b1 b4 label colonialabel"><b>Colonia:</b></div>  
-			<div class="grid-item b4 coloniain">{{titulo}}</div>
+			<div class="grid-item b4 coloniain">{{colonia}}</div>
 		</div>
 		<div class="grid-container">
 			<div class="grid-item b1 b2 b4 label alcalabel"><b>Alcaldía o<br>Municipio:</b></div>
-			<div class="grid-item b1 b4 alcain">{{calle}}</div>
+			<div class="grid-item b1 b2 b4 alcain">{{municipio}}</div>
 			<div class="grid-item b2 label cplabel"><b>Código<br>Postal:</b></div>
-			<div class="grid-item b1 b4 b2 cplin">{{titulo}}</div>
+			<div class="grid-item b1 b4 b2 cplin">{{codigo_postal}}</div>
 			<div class="grid-item b4 b2 label estalabel"><b>Estado:</b></div>
-			<div class="grid-item b4 b2 estain">{{titulo}}</div>
+			<div class="grid-item b4 b2 estain">{{estado}}</div>
 			<div class="grid-item b4 b2 label paislabel"><b>País:</b></div>  
-			<div class="grid-item b4 b2 paisin">{{titulo}}</div>
+			<div class="grid-item b4 b2 paisin">{{estado}}</div>
 			<div class="grid-item b4 b2 label telclabel"><b>Teléfono<br>Casa:</b></div>
-			<div class="grid-item b4 b2 telclin">{{titulo}}</div>
+			<div class="grid-item b4 b2 telclin">{{telefono_casa}}</div>
 			<div class="grid-item b4 b2 label telmlabel"><b>Teléfono<br>móvil:</b></div>
-			<div class="grid-item b4 b2 telmlin">{{titulo}}</div>
+			<div class="grid-item b4 b2 telmlin">{{telefono_movil}}</div>
 			<div class="grid-item b1 b3 b4 b2 label sexolabel"><b>Sexo:</b></div>  
-			<div class="grid-item b4 b2 b3 sexoin">{{titulo}}</div>
+			<div class="grid-item b4 b2 b3 sexoin">{{genero}}</div>
 			<div class="grid-item b4 b2 b3 label cor1label"><b>Correo<br>electrónico 1:</b></div>
-			<div class="grid-item b4 b2 b3 cor1in">{{titulo}}</div>
+			<div class="grid-item b4 b2 b3 cor1in">{{correo_1}}</div>
 			<div class="grid-item b4 b2 b3 label cor2label"><b>Correo<br>electrónico 2:</b></div>  
-			<div class="grid-item b4 b2 b3 cor2in">{{titulo}}</div>
+			<div class="grid-item b4 b2 b3 cor2in">{{correo_2}}</div>
 		</div>
 		<br>
 		<div class="grid-container">
-			<div class="grid-item b1 b2 b3 b4 titulo nomunlabel"><b>Nombre de la unidad académica</b></div>
-			<div class="grid-item b1 b3 b4 nomunin">{{titulo}}</div>
-			<div class="grid-item b2 b3 b4 titulo nomprlabel"><b>Nombre del programa Académico de Posgrado</b></div>  
-			<div class="grid-item b3 b4 nomprin">{{titulo}}</div>
+			<div class="antecedentes grid-item fontg"><b><i><br>ANTECEDENTES</i></b></div>
+			<div class="b1 b2 b4 titulo nivel"><b>Nivel</b></div>
+			<div class="b1 b2 b4 titulo programa"><b>Programa académico cursado</b></div>  
+			<div class="b1 b2 b4 titulo institucion"><b>Institución</b></div>
+			<div class="b1 b2 b4 titulo estado"><b>Estado o País</b></div>  
+			<div class="b1 b2 b4 titulo graduacion"><b>Fecha de<br>Graduación</b></div>
+			{% for antecedente in antecedentes %}
+				<div grid-column="1" grid-row="{{ antecedente.indice }}" style=" background-color: #fff; font-family: Arial; border: 1px solid #000; font-size: 13px" class="b1 b2 b4">{{antecedente.nivel_academico_cursado}}</div>
+				<div grid-column="2" grid-row="{{ antecedente.indice }}" style=" background-color: #fff; font-family: Arial; border: 1px solid #000; font-size: 13px" class="b1 b2 b4">{{antecedente.programa_academico_cursado}}</div>  
+				<div grid-column="3" grid-row="{{ antecedente.indice }}" style=" background-color: #fff; font-family: Arial; border: 1px solid #000; font-size: 13px" class="b1 b2 b4">{{antecedente.institucion_donde_curso}}</div>
+				<div grid-column="4" grid-row="{{ antecedente.indice }}" style=" background-color: #fff; font-family: Arial; border: 1px solid #000; font-size: 13px" class="b1 b2 b4">{{antecedente.estado_institucion}}</div>  
+				<div grid-column="5" grid-row="{{ antecedente.indice }}" style=" background-color: #fff; font-family: Arial; border: 1px solid #000; font-size: 13px; text-align: center;"  class="b1 b2 b4">{{antecedente.fecha_graduacion}}</div>
+			{% endfor %}
+		</div>
+		<br>
+		<div class="grid-container">
+			<div class="grid-item fontg programat"><b><i><br>PROGRAMA SEMESTRAL<br>(1er semestre)</i></b></div>
+			<div class="grid-item b1 b2 b3 b4 titulo estatus "><b>Estatus del<br>alumno</b></div>
+			<div class="grid-item b2 b3 b4 protiempo ">Tiempo {{estatus}}</div>
+			<div class="grid-item vacio"></div>
+			<div class="grid-item vacio2"></div>
 		</div>
 		<div class="grid-container">
-			<div class="grid-item b1 b2 b4 label alcalabel"><b>Alcaldía o<br>Municipio:</b></div>
-			<div class="grid-item b1 b4 alcain">{{calle}}</div>
-			<div class="grid-item b2 label cplabel"><b>Código<br>Postal:</b></div>
-			<div class="grid-item b1 b4 b2 cplin">{{titulo}}</div>
-			<div class="grid-item b4 b2 label estalabel"><b>Estado:</b></div>
-			<div class="grid-item b4 b2 estain">{{titulo}}</div>
-			<div class="grid-item b4 b2 label paislabel"><b>País:</b></div>  
-			<div class="grid-item b4 b2 paisin">{{titulo}}</div>
-			<div class="grid-item b4 b2 label telclabel"><b>Teléfono<br>Casa:</b></div>
-			<div class="grid-item b4 b2 telclin">{{titulo}}</div>
-			<div class="grid-item b4 b2 label telmlabel"><b>Teléfono<br>móvil:</b></div>
-			<div class="grid-item b4 b2 telmlin">{{titulo}}</div>
-			<div class="grid-item b1 b3 b4 b2 label sexolabel"><b>Sexo:</b></div>  
-			<div class="grid-item b4 b2 b3 sexoin">{{titulo}}</div>
-			<div class="grid-item b4 b2 b3 label cor1label"><b>Correo<br>electrónico 1:</b></div>
-			<div class="grid-item b4 b2 b3 cor1in">{{titulo}}</div>
-			<div class="grid-item b4 b2 b3 label cor2label"><b>Correo<br>electrónico 2:</b></div>  
-			<div class="grid-item b4 b2 b3 cor2in">{{titulo}}</div>
+			<div class="b1 b2 b4 titulo clave"><b>Clave</b></div>
+			<div class="b1 b2 b4 titulo actividad"><b>Actividad académica (curso)</b></div>  
+			<div class="b1 b2 b4 titulo profesor"><b>Profesor</b></div>
+			<div class="b1 b2 b4 titulo unidad"><b>Unidad Academica</b></div>  
+			{% for materia in programa %}
+				<div grid-column="1" grid-row="{{ materia.indice }}" style=" background-color: #fff; font-family: Arial; border: 1px solid #000; font-size: 13px" class="b1 b2 b4">{{materia.clave}}</div>
+				<div grid-column="2" grid-row="{{ materia.indice }}" style=" background-color: #fff; font-family: Arial; border: 1px solid #000; font-size: 13px" class="b1 b2 b4">{{materia.unidad_aprendizaje}}</div>  
+				<div grid-column="3" grid-row="{{ materia.indice }}" style=" background-color: #fff; font-family: Arial; border: 1px solid #000; font-size: 13px" class="b1 b2 b4">{{materia.profesor}}</div>
+				<div grid-column="4" grid-row="{{ materia.indice }}" style=" background-color: #fff; font-family: Arial; border: 1px solid #000; font-size: 13px" class="b1 b2 b4">{{materia.lugar_realizacion}}</div>  
+			{% endfor %}
 		</div>
+		<div class="grid-container">
+			<div class="grid-item b2 manifiesto"><b><u><br>Manifiesto que la información proporcionada con antelación es verídica</u></b></div>
+		</div>
+		<br>
+		<br>
+		<div class="grid-container">
+			<div class="grid-item alumno "><b>Alumno</b></div>
+			<div class="grid-item asesor"><b>Asesor académico</b></div>
+			<div class="grid-item jefe"><b>Jefe(a) de la Sección o<br>Director(a) del Centro</b></div>
+			<div class="grid-item vacio3"><br></div>
+			<div class="grid-item alufirma"><div class="b3" style="margin: 10px;"><br>{{apellido_paterno}} {{apellido_materno}} {{nombre}}</div></div>
+			<div class="grid-item asefirma"><div class="b3" style="margin: 10px;"><br>{{asesor}}</div></div>
+			<div class="grid-item jeffirma"><div class="b3" style="margin: 10px;"><br>{{jefe}}</div></div>
+		</div>
+		<br>
+		<div class="grid-container">
+			<div class="grid-item titulo b1 b2 b3 fechalabel"><br>Fecha (dd/mm/aaaa)</div>
+			<div class="grid-item b1 b2 b3 b4 fechain"><br>{{fecha}}</div>
+			<div class="grid-item vacio4"></div>
+			<div class="grid-item aviso"><br>AVISO DE PRIVACIDAD</div>
+			<div class="grid-item texto"> El Instituto Politécnico Nacional, IPN, a través de la Dirección de Posgrado, con domicilio en el edificio de la Secretaría Académica, 2º piso, Av. Luis Enrique Erro S/N, Unidad Profesional “Adolfo López Mateos”, colonia Zacatenco, alcaldía Gustavo A. Madero, C.P. 07738, Ciudad de México, es el responsable del tratamiento de los datos personales que nos proporcione, los cuales serán protegidos conforme a lo dispuesto por la Ley General de Protección de Datos Personales en Posesión de Sujetos Obligados (LGPDPPSO), y demás normatividad que resulte aplicable. Se hace de su conocimiento que los datos personales que nos proporciona mediante los formularios y plataformas gestionadas a través de la Dirección de Posgrado, serán tratados para las finalidades de: 1. Identificación de las solicitudes recibidas en el marco de las diferentes convocatorias emitidas por la Dirección de Posgrado, 2. Agilizar el contacto con Usted, en caso de que se requiera, 3. Gestionar el pago de estímulos (BECAS) ante las instancias indicadas y 4. Integrar los informes institucionales que así lo soliciten. Se informa que para el tratamiento de sus datos personales para las finalidades antes descritas no se requiere consentimiento, de conformidad con lo previsto en el artículo 22, fracciones I y V, de la Ley General de Protección de Datos Personales en Posesión de Sujetos Obligados. Se informa que no se realizarán transferencia de datos personales, salvo aquellas que sean necesarias para atender requerimientos de información de una autoridad competente, que estén debidamente fundados y motivados; y para el ejercicio de sus derechos o cumplimiento de obligaciones derivadas de la relación jurídica entre usted y el IPN, para lo cual no se requerirá su consentimiento, conforme a lo dispuesto en el artículo 70, fracciones III, VI, y VIII, de la Ley General de Protección de Datos Personales en Posesión de Sujetos Obligados.Si desea conocer nuestro aviso de privacidad integral, lo podrá consultar en: <a href="http://www.ipn.mx/posgrado/" target="_blank">http://www.ipn.mx/posgrado/</a></div>
+			{% if aviso_privacidad %}
+				<div class="grid-item acept"><br><b><u>ACEPTO</u></b> el aviso de privacidad </div>
+			{%else%}
+				<div class="grid-item acept"><br><b><u>NO ACEPTO</u></b> el aviso de privacidad </div>
+			{% endif %}
+		</div>
+		
 	</body>
 </html>
