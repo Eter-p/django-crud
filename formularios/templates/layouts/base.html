@@ -21,10 +21,10 @@
 						<li class="nav-item"><a class="nav-link active" href="/">Inicio</a></li> 
 						<li class="nav-item"><a class="nav-link active" href="/admin">Panel de Administrador</a></li>
 						{% if user.is_authenticated %}
-							<li class="nav-item"><a class="nav-link active" href="/logout">Cerrar sesion</a></li>
+							<li class="nav-item"><a class="nav-link active" href="/logout">Cerrar sesión</a></li>
 						{% else %}
 							<li class="nav-item"><a class="nav-link active" href="/signup">Registrar Docente</a></li>
-							<li class="nav-item"><a class="nav-link active" href="/signin">Iniciar Sesion</a></li>
+							<li class="nav-item"><a class="nav-link active" href="/signin">Iniciar Sesión</a></li>
 						{% endif %}
 					</ul>
 				</div>

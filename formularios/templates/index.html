@@ -14,19 +14,30 @@
 		</div>
 		<div class="col-md-4 offset-md-4">
 			<ul class="list-group">
-				<li class="list-group-item">
-					<a class="list-group-item" aria-current="true" href="/formularios">
-						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1">Solicitar Formulario</h5>
-						</div>
-					</a>
-				</li>
+				
 				{% if user.is_authenticated %}
+					<h3 class="lead">Sección docente y administrativa</h3>
+					<li class="list-group-item">
+						<a class="list-group-item" aria-current="true" href="/formularios">
+							<div class="d-flex w-100 justify-content-between">
+								<h5 class="mb-1">Firmar Formulario</h5>
+							</div>
+						</a>
+					</li>
 					<li class="list-group-item"><a class="nav-link active" href="/logout">
 						<div class="d-flex w-100 justify-content-between">
 							<h5 class="mb-1">Cerrar Sesión</h5>
 						</div></a></li>
 				{% else %}
+					<h3 class="lead">Sección del alumno</h3>
+					<li class="list-group-item">
+						<a class="list-group-item" aria-current="true" href="/formularios">
+							<div class="d-flex w-100 justify-content-between">
+								<h5 class="mb-1">Solicitar Formulario para llenado</h5>
+							</div>
+						</a>
+					</li><br>
+					<h3 class="lead">Sección docente y administrativa</h3>
 					<li class="list-group-item"><a class="nav-link active" href="/signup">
 						<div class="d-flex w-100 justify-content-between">
 							<h5 class="mb-1">Registrar Docente</h5>
