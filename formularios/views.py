@@ -159,8 +159,8 @@ def inscripcion_firmas(request):
 			solicitud.save()
 			return redirect('success',"0")
 		else:
-			solicitud.fecha = request.POST.get("Fecha")
 			solicitud = get_object_or_404(SolicitudInscripcion,pk=form_solicitud.id)
+			solicitud.fecha = request.POST.get("Fecha")
 			solicitud.firma_alumno = comprueba_firma(request.POST.get("firma_alumno"))
 			solicitud.aviso_privacidad = comprueba_firma(request.POST.get("aviso_privacidad"))
 			solicitud.save()
