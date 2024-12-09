@@ -98,6 +98,9 @@ class InscripcionProgramaAdmin(admin.ModelAdmin):
     list_display = ('id_solicitud_inscripcion', 'id_programa_semestral')
     actions = [enviar_informacion]
 
+class Calendario(admin.ModelAdmin):
+    list_display = ('fecha_inicio', 'fecha_final')
+
 admin.site.register(SolicitudInscripcion, SolicitudInscripcionAdmin)
 admin.site.register(SolicitudReinscripcion, SolicitudReinscripcionAdmin)
 admin.site.register(InscripcionAntecedentes, InscripcionAntecedentesAdmin)
