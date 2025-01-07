@@ -29,7 +29,7 @@ def failure(request,tipo):
 		if opcion == "modificar":
 			if tipo == "inscripcion":
 				return redirect("inscripcion_datos")
-			if tipo == "2":
+			if tipo == "reinscripcion":
 				return redirect("reinscripcion")
 		return redirect("index")
 	except Exception as error:
@@ -37,7 +37,7 @@ def failure(request,tipo):
 
 def enviar_correo(id,tipo,correo):
 	asunto = tipo
-	mensaje = "Guarda este numero y entregalo a los profesores correspondientes: "+str(id)
+	mensaje = "Guarda este numero en caso de necesitarlo: "+str(id)
 	destinatario = correo
 	send_mail(
 		asunto,

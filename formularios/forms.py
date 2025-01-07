@@ -56,7 +56,7 @@ class FormSolicitudInscripcionAdmin(forms.ModelForm):
             'aviso_privacidad':"Firma del aviso de privacidad"
         }
     def __init__(self, *args, **kwargs):
-        super(FormSolicitudInscripcion, self).__init__(*args, **kwargs)
+        super(FormSolicitudInscripcionAdmin, self).__init__(*args, **kwargs)
         self.fields['asesor'].queryset = User.objects.filter(is_staff=True)
         self.fields['asesor'].label_from_instance = lambda obj: f"{obj.first_name} {obj.last_name}"
         self.fields['jefe'].queryset = User.objects.filter(is_staff=True)
@@ -72,7 +72,8 @@ class FormSolicitudInscripcion(forms.ModelForm):
             'aviso_privacidad'
         ]
 
-class FormSolicitudReinscripcion(forms.ModelForm):
+#FORMS DE SOLICITUDES DE REINSCRIPCIÓN --------------------------------------------------------------------------
+class FormSolicitudReinscripcionAdmin(forms.ModelForm):
     class Meta:
         model = SolicitudReinscripcion
         fields = [
@@ -101,11 +102,22 @@ class FormSolicitudReinscripcion(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(FormSolicitudReinscripcion, self).__init__(*args, **kwargs)
+        super(FormSolicitudReinscripcionAdmin, self).__init__(*args, **kwargs)
         self.fields['asesor'].queryset = User.objects.filter(is_staff=True)
         self.fields['asesor'].label_from_instance = lambda obj: f"{obj.first_name} {obj.last_name}"
         self.fields['jefe'].queryset = User.objects.filter(is_staff=True)
         self.fields['jefe'].label_from_instance = lambda obj: f"{obj.first_name} {obj.last_name}"
+
+class FormSolicitudReinscripcion(forms.ModelForm):
+    class Meta:
+        model = SolicitudReinscripcion
+        fields = [
+            "periodo",
+            "semestre_a_cursar",
+            "asesor",
+            "requiere_unidad",
+            "firma_alumno"
+        ]
 
 class FormConstanciaProgramaIndividual(forms.ModelForm):
     class Meta:

@@ -76,7 +76,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="usuario">Nombre del asesor:</label>
-                    <select class="form-control" id="nombre_asesor" name="nombre_asesor">
+                    <select class="form-control" id="asesor" name="asesor">
                         {% for profe in profes %}
                             <option value="{{ profe.id }}">{{ profe.first_name }} {{ profe.last_name }}</option>
                         {% endfor %}

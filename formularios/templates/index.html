@@ -24,31 +24,32 @@
 								</a>
 							{% endif %}
 						{% else %}
-							<a class="list-group-item btn btn-outline-secondary border border-dark" aria-current="true" href="/formularios">
-								<div class="d-flex w-100 justify-content-between">
-									<h5 class="mb-3">
-										{% if user.is_staff %}
-											Firmar 
-										{% else%}
-											Llenar 
-										{% endif %}
-										formulario
-									</h5>
-								</div>
-							</a>
+							{% if user.is_staff %}
+								<a class="list-group-item btn btn-outline-secondary border border-dark" aria-current="true" href="/formularios">
+									<div class="d-flex w-100 justify-content-between">
+										<h5 class="mb-3">Firmar formulario</h5>
+									</div>
+								</a>
+								{% else %}
+									<a class="list-group-item btn btn-outline-secondary border border-dark" aria-current="true" href="/formularios">
+										<div class="d-flex w-100 justify-content-between">
+											<h5 class="mb-3">Llenar formulario</h5>
+										</div>
+									</a>
+									<br>
+									<a class="list-group-item btn btn-outline-secondary text-start border border-dark" aria-current="true" href="/actualizacion/datos/personales">
+										<div class="d-flex w-100 justify-content-between">
+											<h5 class="mb-1">Actualizar datos personales</h5>
+										</div>
+									</a>
+									<br>
+									<a class="list-group-item btn btn-outline-secondary text-start border border-dark" aria-current="true" href="/actualizacion/datos/academicos">
+										<div class="d-flex w-100 justify-content-between">
+											<h5 class="mb-1">Actualizar información académica</h5>
+										</div>
+									</a>
+								{% endif %}
 						{% endif %}
-						<br>
-						<a class="list-group-item btn btn-outline-secondary text-start border border-dark" aria-current="true" href="/actualizacion/datos/personales">
-							<div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-1">Actualizar datos personales</h5>
-							</div>
-						</a>
-						<br>
-						<a class="list-group-item btn btn-outline-secondary text-start border border-dark" aria-current="true" href="/actualizacion/datos/academicos">
-							<div class="d-flex w-100 justify-content-between">
-								<h5 class="mb-1">Actualizar información académica</h5>
-							</div>
-						</a>
 						<br>
 						<a class="list-group-item btn btn-outline-secondary border border-dark" aria-current="true" href="/logout">
 							<div class="d-flex w-100 justify-content-between">

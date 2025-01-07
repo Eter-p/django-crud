@@ -7,11 +7,11 @@ from django.http import HttpResponse
 from django.shortcuts import render,redirect,get_object_or_404
 
 from alumnos.models import DatosPersonalesAlumno,DatosAcademicosAlumno
-from alumnos.forms import FormDatosPersonales,FormDatosAcademicosIns
+from alumnos.forms import FormDatosPersonales,FormDatosAcademicos,FormDatosAcademicosIns,FormDatosPersonalesCorreo
 from alumnos.utils import actualizar_datos
-from .models import InscripcionAntecedentes,SolicitudInscripcion,AntecedentesAcademicos
-from .forms import FormsetAntecedentes,FormSolicitudInscripcion
-from .utils import informacion_inscripcion,enviar_correo,control,form_solicitud
+from .models import InscripcionAntecedentes,SolicitudInscripcion,AntecedentesAcademicos,SolicitudReinscripcion
+from .forms import FormsetAntecedentes,FormSolicitudInscripcion,FormSolicitudReinscripcion
+from .utils import control,form_solicitud,informacion_inscripcion,enviar_correo,fecha_mayor,comprueba_firma
 from programa.forms import FormsetProgramaSem
 from programa.models import InscripcionPrograma,ReinscripcionPrograma,ConstanciaPrograma
 from calendarios.models import Calendario
@@ -19,8 +19,6 @@ from tesis.forms import *
 import ast
 
 # INSCRIPCIÓN --------------------------------------------------------------------------------
-
-#Cancelar solicitud
 def solicitud_cancelar(request):
 	if request.method == "POST":
 		if form_solicitud != None:
@@ -105,7 +103,7 @@ def inscripcion_antecedentes(request):
 					id_antecedentes = form_antecedentes
 				)
 			return redirect('inscripcion_programa')
-		return redirect("failure","antecedentes")
+		return redirect("failure","invalid")
 	except Exception as error:
 		forms_antecedentes = FormsetAntecedentes()
 		return render(request,"inscripcionAntecedentes.html",{
@@ -133,7 +131,7 @@ def inscripcion_programa(request):
 					id_programa_semestral = form_programa
 				)
 			return redirect('inscripcion_firmas')
-		return("failure","programa")
+		return("failure","invalid")
 	except Exception as error:
 		forms_programa = FormsetProgramaSem()
 		return render(request,"inscripcionPrograma.html",{
@@ -174,6 +172,8 @@ def inscripcion_firmas(request):
 		new_form_inscripcion = form_inscripcion.save()
 		new_form_inscripcion.jefe = User.objects.get(username='Jefe_area')
 		new_form_inscripcion.save()
+		new_form_inscripcion.firma_alumno = comprueba_firma(request.POST.get("firma_alumno"))	
+		new_form_inscripcion.aviso_privacidad = comprueba_firma(request.POST.get("aviso_privacidad"))	
 		form_solicitud = None
 		enviar_correo(solicitud.id,"Solicitud de Inscripción",usuario.email)
 		return redirect('success',"inscripcion")
@@ -206,93 +206,90 @@ def inscripcion_firmas_pendiente(request):
 	except:
 		pass
 
-# # REINSCRIPCION -------------------------------------------------------------------------------
-# @login_required
-# def reinscripcion(request):
-# 	global control
-# 	usuario = request.user
-# 	if not usuario.is_staff:
-# 		registroP = DatosPersonalesAlumno.objects.filter(cuenta=usuario)
-# 		registroA = DatosAcademicosAlumno.objects.filter(cuenta=usuario)
-# 		if len(registroP)==0:
-# 			registro_solicitud = []
-# 			fecha_solicitud = timezone.now()
-# 		else:
-# 			registro_solicitud = SolicitudReinscripcion.objects.filter(datos_personales=registroP[0])
-# 			if len(registro_solicitud)==0:
-# 				fecha_solicitud = timezone.now()
-# 			else:
-# 				fecha_solicitud = registro_solicitud[len(registro_solicitud)-1].fecha
-# 		if (len(registro_solicitud)>0) and fecha_mayor(fecha_solicitud.strftime("%Y-%m-%d %H:%M:%S"),Calendario.objects.get(nombre="Reinscripción").fecha_inicio.strftime("%Y-%m-%d %H:%M:%S")) and control:
-# 			control = False
-# 			return redirect("failure","2")
-# 	if request.method == "GET":
-# 		forms_programa = FormsetProgramaSem()
-# 		return render(request,"reinscripcion.html",{
-# 			'datosP': registroP[0] if len(registroP) == 1 else "X",
-# 			'datosA': registroA[0] if len(registroA) == 1 else "X",
-# 			'profes': User.objects.filter(is_staff=True),
-# 			'formsPrograma': forms_programa
-# 		})
+# REINSCRIPCION -------------------------------------------------------------------------------
+@login_required
+def reinscripcion(request):
+	global control
+	usuario = request.user
+	if not usuario.is_staff:
+		registroP = DatosPersonalesAlumno.objects.filter(cuenta=usuario)
+		registroA = DatosAcademicosAlumno.objects.filter(cuenta=usuario)
+		if len(registroP)==0:
+			registro_solicitud = []
+			fecha_solicitud = timezone.now()
+		else:
+			registro_solicitud = SolicitudReinscripcion.objects.filter(datos_personales=registroP[0])
+			if len(registro_solicitud)==0:
+				fecha_solicitud = timezone.now()
+			else:
+				fecha_solicitud = registro_solicitud[len(registro_solicitud)-1].fecha
+		if (len(registro_solicitud)>0) and fecha_mayor(fecha_solicitud.strftime("%Y-%m-%d %H:%M:%S"),Calendario.objects.get(nombre="Reinscripción").fecha_inicio.strftime("%Y-%m-%d %H:%M:%S")) and control:
+			control = False
+			return redirect("failure","reinscripcion")
+	if request.method == "GET":
+		forms_programa = FormsetProgramaSem()
+		return render(request,"reinscripcion.html",{
+			'datosP': registroP[0] if len(registroP) == 1 else "X",
+			'datosA': registroA[0] if len(registroA) == 1 else "X",
+			'profes': User.objects.filter(is_staff=True),
+			'formsPrograma': forms_programa
+		})
 	
-# 	try:
-# 		if request.user.is_staff:
-# 			solicitud = get_object_or_404(SolicitudReinscripcion,pk=request.POST.get('id_solicitud'))
-# 			solicitud.firma_asesor = comprueba_firma(request.POST.get("firma_asesor"))
-# 			solicitud.firma_jefe = comprueba_firma(request.POST.get("firma_jefe"))
-# 			solicitud.save()
-# 			return redirect('success',"0")
-# 		else:
-# 			new_form_datos_p = actualizar_personales(request,registroP,usuario,FormDatosPersonalesAlumnoCorreo)
-# 			new_form_datos_a = actualizar_academicos(request,registroA,usuario)
+	try:
+		if request.user.is_staff:
+			solicitud = get_object_or_404(SolicitudReinscripcion,pk=request.POST.get('id_solicitud'))
+			solicitud.firma_asesor = comprueba_firma(request.POST.get("firma_asesor"))
+			solicitud.firma_jefe = comprueba_firma(request.POST.get("firma_jefe"))
+			solicitud.save()
+			return redirect('success',"0")
+		else:
+			new_form_datos_p = actualizar_datos(request,registroP,usuario,FormDatosPersonalesCorreo)
+			new_form_datos_a = actualizar_datos(request,registroA,usuario,FormDatosAcademicos)
 			
-# 			if (control):
-# 				form_reinscripcion = FormSolicitudReinscripcion(request.POST)
-# 				new_form_reinscripcion = form_reinscripcion.save(commit=False)
-				
-# 				new_form_reinscripcion.jefe = User.objects.get(username='Jefe_area')
-# 			else:
-# 				form_reinscripcion = FormSolicitudReinscripcion(request.POST,instance=registro_solicitud[len(registro_solicitud)-1])
-# 				if form_reinscripcion.is_valid():
-# 					for field in form_reinscripcion.cleaned_data:
-# 						setattr(registro_solicitud[len(registro_solicitud)-1],field, form_reinscripcion.cleaned_data[field])
-# 					new_form_reinscripcion = form_reinscripcion.save(commit=False)
-# 					programa_borrar = ReinscripcionPrograma.objects.filter(id_solicitud_reinscripcion=new_form_reinscripcion)
-# 					for programa in programa_borrar:
-# 						programa.delete()
-# 				else:
-# 					print(form_reinscripcion.errors)
-# 			new_form_reinscripcion.datos_personales = new_form_datos_p
-# 			new_form_reinscripcion.datos_academicos = new_form_datos_a
-# 			new_form_reinscripcion.asesor = User.objects.get(id=request.POST.get('nombre_asesor'))
-# 			new_form_reinscripcion.fecha = timezone.now()
-# 			new_form_reinscripcion.save()
-# 			control = True
-# 			forms_programa = FormsetProgramaSem(request.POST)
-# 			if forms_programa.is_valid():
-# 				for form in forms_programa:
-# 					form_programa = form.cleaned_data.get('id_programa_semestral')
-# 					ReinscripcionPrograma.objects.create(
-# 						id_solicitud_reinscripcion = new_form_reinscripcion,
-# 						id_programa_semestral = form_programa
-# 					)
-# 				print("Programa creado")
-# 				global correo
-# 				correo = request.POST["correo_1"]
-# 				enviar_correo(new_form_reinscripcion.id,"Solicitud de Reinscripción")
-# 			else:
-# 				print(forms_programa.errors)
-# 				return redirect('failure',"3")
-# 			return redirect('success',new_form_reinscripcion.id)
-# 	except Exception as error:
-# 		forms_programa = FormsetProgramaSem()
-# 		return render(request,"reinscripcion.html",{
-# 			'datosP': registroP[0] if len(registroP) == 1 else "X",
-# 			'datosA': registroA[0] if len(registroA) == 1 else "X",
-# 			'formReinscipcion': FormSolicitudReinscripcion,	
-# 			'formsPrograma': forms_programa,
-# 			'error': error,
-# 		})
+			if (control):
+				form_reinscripcion = FormSolicitudReinscripcion(request.POST)
+				if not form_reinscripcion.is_valid():
+					print(form_reinscripcion.errors)
+					return redirect("failure","invalid")
+				new_form_reinscripcion = form_reinscripcion.save(commit=False)
+				new_form_reinscripcion.datos_personales = new_form_datos_p
+				new_form_reinscripcion.datos_academicos = new_form_datos_a
+			else:
+				form_reinscripcion = FormSolicitudReinscripcion(request.POST,instance=registro_solicitud[len(registro_solicitud)-1])
+				if not form_reinscripcion.is_valid():
+					print(form_reinscripcion.errors)
+					return redirect("failure","invalid")
+				new_form_reinscripcion = form_reinscripcion.save(commit=False)
+				programa_borrar = ReinscripcionPrograma.objects.filter(id_solicitud_reinscripcion=new_form_reinscripcion)
+				for programa in programa_borrar:
+					programa.delete()
+			new_form_reinscripcion.firma_alumno = comprueba_firma(request.POST.get("firma_alumno"))	
+			new_form_reinscripcion.requiere_unidad = comprueba_firma(request.POST.get("requiere_unidad"))	
+			new_form_reinscripcion.jefe = User.objects.get(username='Jefe_area')
+			new_form_reinscripcion.fecha = timezone.now()
+			new_form_reinscripcion.save()
+			control = True
+
+			forms_programa = FormsetProgramaSem(request.POST)
+			if not forms_programa.is_valid():
+				return redirect('failure',"invalid")
+			for form in forms_programa:
+				form_programa = form.cleaned_data.get('id_programa_semestral')
+				ReinscripcionPrograma.objects.create(
+					id_solicitud_reinscripcion = new_form_reinscripcion,
+					id_programa_semestral = form_programa
+				)
+			enviar_correo(new_form_reinscripcion.id,"Solicitud de Reinscripción",new_form_datos_p.cuenta.email)
+			return redirect('success',"reinscripcion")
+	except Exception as error:
+		forms_programa = FormsetProgramaSem()
+		return render(request,"reinscripcion.html",{
+			'datosP': registroP[0] if len(registroP) == 1 else "X",
+			'datosA': registroA[0] if len(registroA) == 1 else "X",
+			'formReinscipcion': FormSolicitudReinscripcion,	
+			'formsPrograma': forms_programa,
+			'error': error,
+		})
 
 # #PROGRAMA INDIVIDUAL DE ACTIVIDADES -----------------------------------------------------------
 # @login_required

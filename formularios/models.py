@@ -15,7 +15,7 @@ class SolicitudInscripcion(models.Model):
     aviso_privacidad = models.BooleanField(null=True,blank=True)
 
     def __str__(self):
-        return f"id. Solicitud {self.id} : {self.datos_personales.cuenta.first_name}  {self.datos_personales.cuenta.last_name}"
+        return f"id. Inscripción {self.id} : {self.datos_personales}"
     
     class Meta:
         verbose_name = "Solicitud de Inscripción"
@@ -36,7 +36,7 @@ class AntecedentesAcademicos(models.Model):
     fecha_graduacion = models.DateField(null=True,blank=True)
 
     def __str__(self):
-        return f"{self.id} {self.programa_academico_cursado}"
+        return f"{self.id} : {self.nivel_academico_cursado} - {self.programa_academico_cursado}"
     
     class Meta:
         verbose_name = "Tabla de Antecedentes Académicos"
@@ -55,20 +55,30 @@ class InscripcionAntecedentes(models.Model):
 
 # SOLICITUD_REINSCRIPCION
 class SolicitudReinscripcion(models.Model):
+    SEMESTRE_CHOICE = [
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+        (7, '7'),
+        (8, '8'),
+        (9, '9')
+    ]
     datos_personales = models.ForeignKey(DatosPersonalesAlumno, on_delete=models.CASCADE,blank=True,null=True)
     datos_academicos = models.ForeignKey(DatosAcademicosAlumno, on_delete=models.CASCADE,blank=True,null=True)
     fecha = models.DateField(blank=True,null=True)
     periodo = models.CharField(max_length=50)
-    semestre_a_cursar = models.IntegerField(blank=True,null=True)
+    semestre_a_cursar = models.IntegerField(blank=True,null=True,choices=SEMESTRE_CHOICE)
     requiere_unidad = models.BooleanField(null=True,blank=True)
-    firma_alumno = models.BooleanField(null=True,blank=True)
     jefe = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True,related_name="profesor_jefe_reinscripcion")
     asesor = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True,related_name="profesor_asesor_reinscripcion")
+    firma_alumno = models.BooleanField(null=True,blank=True)
     firma_asesor = models.BooleanField(null=True,blank=True)
     firma_jefe = models.BooleanField(null=True,blank=True)
 
     def __str__(self):
-        return f"id. Solicitud {self.id} : {self.datos_personales.cuenta.first_name}  {self.datos_personales.cuenta.last_name}"
+        return f"id. Reinscripción {self.id} : {self.datos_personales}"
     
     class Meta:
         verbose_name = "Solicitud de Reinscripción"

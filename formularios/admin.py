@@ -7,11 +7,14 @@ from .forms import *
 from .models import *
 from .utils import informacion_inscripcion,informacion_reinscripcion
 
+from alumnos.admin import DatosPersonalesInLine
 admin.site.site_title = "SEPI - Administración"
 admin.site.site_header = "Panel de Administración"
 admin.site.index_title = "Bienvenido al Administrador"
 
 class CustomUserAdmin(UserAdmin):
+    inlines = [DatosPersonalesInLine]
+    extra = 0
     form = CustomUserChangeForm
     list_display = ("username",'email','first_name','last_name','is_docente')
     def is_docente(self, obj):
@@ -44,7 +47,7 @@ def enviar_informacion_inscripcion(modeladmin,request, queryset):
 enviar_informacion_inscripcion.short_description = "Ver reporte en una nueva pagina"
 
 class SolicitudInscripcionAdmin(admin.ModelAdmin):
-    form = FormSolicitudInscripcion
+    form = FormSolicitudInscripcionAdmin
     list_display = ('id',"nombre_completo",'firma_asesor','nombre_asesor','firma_jefe','nombre_jefe')
     search_fields = ('datos_personales__cuenta__first_name','datos_personales__cuenta__last_name','asesor__first_name','asesor__last_name')
     list_filter = ('firma_asesor','firma_jefe')
@@ -68,7 +71,7 @@ def enviar_informacion_reinscripcion(modeladmin,request, queryset):
 enviar_informacion_reinscripcion.short_description = "Ver reporte en una nueva pagina"
 
 class SolicitudReinscripcionAdmin(admin.ModelAdmin):
-    form = FormSolicitudReinscripcion
+    form = FormSolicitudReinscripcionAdmin
     list_display = ('id',"nombre_completo",'firma_asesor','nombre_asesor','firma_jefe','nombre_jefe')
     search_fields = ('datos_personales__cuenta__first_name','datos_personales__cuenta__last_name','asesor__first_name','asesor__last_name')
     list_filter = ('firma_asesor','firma_jefe')

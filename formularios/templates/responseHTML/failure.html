@@ -34,16 +34,11 @@
                 </p>            
                 <button type="submit" class="btn btn-primary">Continuar</button>
             </form>
-        {% elif tipo == "antecedentes" %}
+        {% elif tipo == "invalid" %}
             <h1 class="display-5 text-center">Ha ocurrido un error durante el registro</h1>
             <h3 class="display-5 text-center">Posible entrada de datos invalida</h3>
             <div class="text-center"><a href="/" class="btn btn-outline-primary"> Ir al inicio </a></div>
-        {% elif tipo == "programa" %}
-            <h1 class="display-5 text-center">Ha ocurrido un error durante el registro</h1>
-            <h3 class="display-5 text-center">Posible entrada de datos invalida</h3>
-            <div class="text-center"><a href="/" class="btn btn-outline-primary"> Ir al inicio </a></div>
-        {% endif %}
-        {% if tipo == "2" %}
+        {% elif tipo == "reinscripcion" %}
             <h1 class="display-5 text-center">Se detectó un formulario existente</h1>
             <br>
             <h5>
