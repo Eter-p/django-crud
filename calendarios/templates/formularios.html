@@ -1,0 +1,74 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<div id="contenido">		
+	<div class="card-body">
+		{% if user.is_authenticated %}
+			<h3>Formularios</h3>
+			<ul class="list-group">
+				<li class="list-group-item border border-2 border-dark">
+					<p> Inicio de la convocatoria: {{ inscripcion.fecha_inicio }}</p>
+					<p> Fin de la convocatoria: {{ inscripcion.fecha_final }}</p>
+					{% if user.is_staff %}
+						<a class="list-group-item {% if inscripcion.activo %} active {% else %} disabled {% endif %}" href="/solicitud/inscripcion/firmas/pendiente">
+							Solicitud de inscripción al programa académico de Posgrado
+						</a>
+					{% else %}
+						<a class="list-group-item {% if inscripcion.activo %} active {% else %} disabled {% endif %}" href="/solicitud/inscripcion/datos/alumno">
+							Solicitud de inscripción al programa académico de Posgrado
+						</a>
+                    {% endif %}
+				</li>
+				<li class="list-group-item border border-2 border-dark">
+					<p> Inicio de la convocatoria: {{ reinscripcion.fecha_inicio }}</p>
+					<p> Fin de la convocatoria: {{ reinscripcion.fecha_final }}</p>
+					{% if user.is_staff %}
+						<a class="list-group-item {% if reinscripcion.activo %} active {% else %} disabled {% endif %}" href="/solicitud/reinscripcion">
+							Solicitud de Reinscripción
+						</a>
+					{% else %}
+						<a class="list-group-item {% if reinscripcion.activo %} active {% else %} disabled {% endif %}" href="/solicitud/reinscripcion">
+							Solicitud de Reinscripción
+						</a>
+                    {% endif %}
+				</li>
+				<li class="list-group-item border border-2 border-dark">
+					<p> Inicio de la convocatoria: {{ programa.fecha_inicio }}</p>
+					<p> Fin de la convocatoria: {{ programa.fecha_final }}</p>
+					{% if user.is_staff %}
+						<a class="list-group-item {% if programa.activo %} active {% else %} disabled {% endif %}" href="/programa/individual/actividades">
+							Programa individual de actividades
+						</a>
+					{% else %}
+						<a class="list-group-item {% if programa.activo %} active {% else %} disabled {% endif %}" href="/programa/individual/actividades">
+							Programa individual de actividades
+						</a>
+					{% endif %}
+				</li>
+				<li class="list-group-item border border-2 border-dark">
+					<p> Fecha de apertura del formulario: {{ registro.fecha_inicio }}</p>
+					<p> Fecha de cierre del formulario: {{ registro.fecha_final }}</p>
+					{% if user.is_staff %}
+						<a class="list-group-item {% if registro.activo %} active {% else %} disabled {% endif %}" href="/tesis/registro">
+							Acta de registro de Tema de Tesis y designación de Director de Tesis
+						</a>
+					{% else %}
+						<a class="list-group-item {% if registro.activo %} active {% else %} disabled {% endif %}" href="/tesis/registro">
+							Acta de registro de Tema de Tesis y designación de Director de Tesis
+						</a>
+					{% endif %}
+				</li>
+				{% if user.is_staff %}
+					<li class="list-group-item border border-2 border-dark">
+						<p> Fecha de apertura del formulario: {{ revision.fecha_inicio }}</p>
+						<p> Fecha de cierre del formulario: {{ revision.fecha_final }}</p>
+						<a class="list-group-item {% if revision.activo %} active {% else %} disabled {% endif %}" href="/tesis/revision">
+							Acta de revisión de Tesis
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

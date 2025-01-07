@@ -1,120 +1,96 @@
 from django.contrib import admin
-from django.contrib.auth.models import Group
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group,User
 from django.http import HttpResponse
 from django.shortcuts import render
+from .forms import *
 from .models import *
+from .utils import informacion_inscripcion,informacion_reinscripcion
 
 admin.site.site_title = "SEPI - Administración"
 admin.site.site_header = "Panel de Administración"
 admin.site.index_title = "Bienvenido al Administrador"
 
-def enviar_informacion(modeladmin,request, queryset):
-        try:
-            datos = []
-            for obj in queryset:
-                datos.append({
-                    'apellido_paterno': obj.datos_personales.apellido_paterno,
-                    'apellido_materno': obj.datos_personales.apellido_materno,
-                    'nombre': obj.datos_personales.nombre,
-                    'calle': obj.datos_personales.calle,
-                    'numero_exterior': obj.datos_personales.numero_exterior,
-                    'numero_interior': obj.datos_personales.numero_interior,
-                    'colonia': obj.datos_personales.colonia,
-                    'municipio': obj.datos_personales.municipio,
-                    'codigo_postal': obj.datos_personales.codigo_postal,
-                    'estado': obj.datos_personales.estado,
-                    'telefono_casa': obj.datos_personales.telefono_casa,
-                    'telefono_movil': obj.datos_personales.telefono_movil,
-                    'genero': obj.datos_personales.genero,
-                    'correo_1': obj.datos_personales.correo_1,
-                    'correo_2': obj.datos_personales.correo_2,
-                    'unidad_academica_actual': obj.datos_academicos.unidad_academica_actual,
-                    'nom_programa_actual': obj.datos_academicos.nom_programa_actual,
-                    'estatus': obj.datos_academicos.estatus,
-                    'antecedentes': dict_antecedentes(obj.id),
-                    'programa': dict_programa(obj.id),
-                    'asesor': obj.asesor,
-                    'jefe': obj.jefe,
-                    'aviso_privacidad': obj.aviso_privacidad,
-                    'fecha': obj.fecha.strftime("%d/%m/%Y")
-                })
-            return render(request,"pdfs/lanzador.html",{'datos': datos})
-        except Exception as error:
-            return HttpResponse(f'Error al enviar los datos el PDF{error}')
-enviar_informacion.short_description = "Ver reporte en una nueva pagina"
+class CustomUserAdmin(UserAdmin):
+    form = CustomUserChangeForm
+    list_display = ("username",'email','first_name','last_name','is_docente')
+    def is_docente(self, obj):
+        if obj.is_staff:
+            return f"✅"
+        return f"❌"
+    is_docente.short_description = 'Es Docente'
 
-def dict_antecedentes(id):
-    enlaces = InscripcionAntecedentes.objects.filter(id_solicitud_inscripcion=id)
-    antecedentes = []
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Información Personal', {'fields': ('first_name', 'last_name', 'email')}),
+        ('Permisos', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+    )
 
-    contador = 2
-    for enlace in enlaces:
-        antecedente = AntecedentesAcademicos.objects.get(id=enlace.id_antecedentes.id)
-        datos_antecedente = {}
-        datos_antecedente["indice"] = contador
-        datos_antecedente["nivel_academico_cursado"] = antecedente.nivel_academico_cursado
-        datos_antecedente["programa_academico_cursado"] = antecedente.programa_academico_cursado
-        datos_antecedente["institucion_donde_curso"] = antecedente.institucion_donde_curso
-        datos_antecedente["estado_institucion"] = antecedente.estado_institucion
-        datos_antecedente["fecha_graduacion"] = antecedente.fecha_graduacion.strftime("%d/%m/%Y")
-        antecedentes.append(datos_antecedente)
-        contador = contador+1
-    return str(antecedentes)
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj)
+        if not request.user.is_superuser:
+            fieldsets = [(name, {'fields': fields}) for name, fields in fieldsets if name != 'Permisos']
+        return fieldsets
 
-def dict_programa(id):
-    enlaces = InscripcionPrograma.objects.filter(id_solicitud_inscripcion=id)
-    programa = []
 
-    contador = 2
-    for enlace in enlaces:        
-        materia = ProgramaSemestral.objects.get(id=enlace.id_programa_semestral.id)
-        datos_materia = {}
-        datos_materia["indice"] = contador
-        datos_materia["clave"] = materia.clave
-        datos_materia["unidad_aprendizaje"] = materia.unidad_aprendizaje
-        datos_materia["profesor"] = materia.profesor
-        datos_materia["lugar_realizacion"] = materia.lugar_realizacion
-        programa.append(datos_materia)
-        contador = contador+1
-    return str(programa)
+def enviar_informacion_inscripcion(modeladmin,request, queryset):
+    try:
+        datos_formularios = []
+        for obj in queryset:
+            datos_formularios.append(informacion_inscripcion(obj))
+        return render(request,"pdfs/lanzador.html",{'datos': datos_formularios})
+    except Exception as error:
+        return HttpResponse(f'Error al enviar los datos el PDF{error}')
+enviar_informacion_inscripcion.short_description = "Ver reporte en una nueva pagina"
 
 class SolicitudInscripcionAdmin(admin.ModelAdmin):
-    list_display = ('datos_personales', 'datos_academicos','firma_asesor','asesor','firma_jefe','jefe')
-    search_fields = ('datos_personales__nombre','datos_personales__apellido_paterno','datos_personales__apellido_materno', 'datos_academicos__boleta')  # Campos por los cuales se podrá buscar
+    form = FormSolicitudInscripcion
+    list_display = ('id',"nombre_completo",'firma_asesor','nombre_asesor','firma_jefe','nombre_jefe')
+    search_fields = ('datos_personales__cuenta__first_name','datos_personales__cuenta__last_name','asesor__first_name','asesor__last_name')
     list_filter = ('firma_asesor','firma_jefe')
-    actions = [enviar_informacion]
+    actions = [enviar_informacion_inscripcion]
+    def nombre_completo(self, obj):
+        return f"{obj.datos_personales.cuenta.first_name} {obj.datos_personales.cuenta.last_name}"
+    def nombre_asesor(self, obj):
+        return f"{obj.asesor.first_name} {obj.asesor.last_name}"
+    def nombre_jefe(self, obj):
+        return f"{obj.jefe.first_name} {obj.jefe.last_name}"
+    nombre_completo.short_description = 'Nombre Completo'
+
+def enviar_informacion_reinscripcion(modeladmin,request, queryset):
+    try:
+        datos_formularios = []
+        for obj in queryset:
+            datos_formularios.append(informacion_reinscripcion(obj))
+        return render(request,"pdfs/lanzador.html",{'datos': datos_formularios})
+    except Exception as error:
+        return HttpResponse(f'Error al enviar los datos el PDF{error}')
+enviar_informacion_reinscripcion.short_description = "Ver reporte en una nueva pagina"
 
 class SolicitudReinscripcionAdmin(admin.ModelAdmin):
-    list_display = ('datos_personales', 'datos_academicos','firma_asesor','firma_jefe')
-    search_fields = ('datos_personales__nombre','datos_personales__apellido_paterno','datos_personales__apellido_materno', 'datos_academicos__boleta')  # Campos por los cuales se podrá buscar
+    form = FormSolicitudReinscripcion
+    list_display = ('id',"nombre_completo",'firma_asesor','nombre_asesor','firma_jefe','nombre_jefe')
+    search_fields = ('datos_personales__cuenta__first_name','datos_personales__cuenta__last_name','asesor__first_name','asesor__last_name')
     list_filter = ('firma_asesor','firma_jefe')
-    actions = [enviar_informacion]
+    actions = [enviar_informacion_reinscripcion]
+    def nombre_completo(self, obj):
+        return f"{obj.datos_personales.cuenta.first_name} {obj.datos_personales.cuenta.last_name}"
+    def nombre_asesor(self, obj):
+        return f"{obj.asesor.first_name} {obj.asesor.last_name}"
+    def nombre_jefe(self, obj):
+        return f"{obj.jefe.first_name} {obj.jefe.last_name}"
+    nombre_completo.short_description = 'Nombre Completo'
 
 class InscripcionAntecedentesAdmin(admin.ModelAdmin):
     list_display = ('id_solicitud_inscripcion', 'id_antecedentes')
-    actions = [enviar_informacion]
-
-class InscripcionProgramaAdmin(admin.ModelAdmin):
-    list_display = ('id_solicitud_inscripcion', 'id_programa_semestral')
-    actions = [enviar_informacion]
-
-class CalendarioAdmin(admin.ModelAdmin):
-    list_display = ('nombre','fecha_inicio', 'fecha_final')
-
-admin.site.register(SolicitudInscripcion, SolicitudInscripcionAdmin)
-admin.site.register(SolicitudReinscripcion, SolicitudReinscripcionAdmin)
-admin.site.register(InscripcionAntecedentes, InscripcionAntecedentesAdmin)
-admin.site.register(InscripcionPrograma, InscripcionProgramaAdmin)
-admin.site.register(Calendario,CalendarioAdmin)
+    # actions = [enviar_informacion]
 
 admin.site.unregister(Group)
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
+admin.site.register(SolicitudInscripcion,SolicitudInscripcionAdmin)
+admin.site.register(SolicitudReinscripcion, SolicitudReinscripcionAdmin)
+admin.site.register(InscripcionAntecedentes, InscripcionAntecedentesAdmin)
+
 admin.site.register(ConstanciaProgramaIndividual)
-admin.site.register(ActaRegistroTemaTesis)
-admin.site.register(ActaRevisionTesis)
-admin.site.register(DatosPersonalesAlumno)
-admin.site.register(DatosAcademicosAlumno)
 admin.site.register(AntecedentesAcademicos)
-admin.site.register(ColegioProfesoresPosgrado)
-admin.site.register(DatosAsesor)
-admin.site.register(ProgramaActividades)
-admin.site.register(ProgramaSemestral)

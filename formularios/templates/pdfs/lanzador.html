@@ -15,7 +15,7 @@
     {% for dato in datos %}
     <form action="/pdf/" method="post" target="_blank">
         {% csrf_token %}
-        <label hidden>{{ dato }}</label>
+        <label>{{ dato }}</label>
         <input type="hidden" name="dato" value="{{ dato }}">
     </form>
     {% endfor %}

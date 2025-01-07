@@ -1,0 +1,68 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<h1>Registro y actualización de datos personales</h1>
+<h1>{{error}}</h1>
+<div class="mb-3">
+    <form action="/actualizacion/datos/personales" method="post" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            <label  class="form-label" for="calle">Calle</label>
+            <input type="text" class="form-control bg-secondary text-light" id="calle" name="calle" value="{{ datosP.calle }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="numero_exterior">Número Exterior</label>
+            <input type="text" class="form-control bg-secondary text-light" id="numero_exterior" name="numero_exterior" value="{{ datosP.numero_exterior }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="numero_interior">Número Interior</label>
+            <input type="text" class="form-control bg-secondary text-light" id="numero_interior" name="numero_interior" value="{{ datosP.numero_interior }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="colonia">Colonia</label>
+            <input type="text" class="form-control bg-secondary text-light" id="colonia" name="colonia" value="{{ datosP.colonia }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="municipio">Municipio</label>
+            <input type="text" class="form-control bg-secondary text-light" id="municipio" name="municipio" value="{{ datosP.municipio }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="codigo_postal">Código Postal</label>
+            <input type="text" class="form-control bg-secondary text-light" id="codigo_postal" name="codigo_postal" value="{{ datosP.codigo_postal }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="estado">Estado</label>
+            <input type="text" class="form-control bg-secondary text-light" id="estado" name="estado" value="{{ datosP.estado }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="pais">País</label>
+            <input type="text" class="form-control bg-secondary text-light" id="pais" name="pais" value="{{ datosP.pais }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="telefono_casa">Teléfono de Casa</label>
+            <input type="text" class="form-control bg-secondary text-light" id="telefono_casa" name="telefono_casa" value="{{ datosP.telefono_casa }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="telefono_movil">Teléfono Móvil</label>
+            <input type="text" class="form-control bg-secondary text-light" id="telefono_movil" name="telefono_movil" value="{{ datosP.telefono_movil }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="genero">Género</label>
+            <select class="form-control bg-secondary text-light" id="genero" name="genero">
+                <option value="H" {% if datosP.genero == 'H' %}selected{% endif %}>Hombre</option>
+                <option value="M" {% if datosP.genero == 'M' %}selected{% endif %}>Mujer</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="correo_1">Correo Electrónico Principal</label>
+            <input type="email" class="form-control bg-secondary text-light" id="correo_1" name="correo_1" value="{{ datosP.correo_1 }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="correo_2">Correo Electrónico Secundario</label>
+            <input type="email" class="form-control bg-secondary text-light" id="correo_2" name="correo_2" value="{{ datosP.correo_2 }}">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+</div>
+{% endblock %}

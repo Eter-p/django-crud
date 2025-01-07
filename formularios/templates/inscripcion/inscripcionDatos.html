@@ -3,23 +3,85 @@
 
 <h1>FORMULARIO DE INSCRIPCIÓN</h1>
 <h1>{{error}}</h1>
-<form action="/solicitud/inscripcion/datos/alumno" method="post">
-    {% csrf_token %}
-    <ul class="list-group">
-        <li class="list-group-item">
-            <h3>Datos Personales</h3>
-            {{ formDatosP.as_p }}
-        </li>
-        <li class="list-group-item">
-            <h3>Datos Academicos</h3>
-            {{ formDatosA.as_p }}
-        </li>
-    </ul>        
-    <button class="btn btn-primary">Siguiente</button>
-</form>
 
-<form action="/solicitud/cancelar" method="post">
-    {% csrf_token %}
-    <button class="btn btn-secondary">Cancelar</button>
-</form>
+<div class="container">
+    <form action="/solicitud/inscripcion/datos/alumno" method="post" novalidate>
+        {% csrf_token %}
+        <h3>Datos Personales</h3>
+        <div class="form-group">
+            <label  class="form-label" for="calle">Calle</label>
+            <input type="text" class="form-control bg-secondary text-light" id="calle" name="calle" value="{{ datosP.calle }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="numero_exterior">Número Exterior</label>
+            <input type="text" class="form-control bg-secondary text-light" id="numero_exterior" name="numero_exterior" value="{{ datosP.numero_exterior }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="numero_interior">Número Interior</label>
+            <input type="text" class="form-control bg-secondary text-light" id="numero_interior" name="numero_interior" value="{{ datosP.numero_interior }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="colonia">Colonia</label>
+            <input type="text" class="form-control bg-secondary text-light" id="colonia" name="colonia" value="{{ datosP.colonia }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="municipio">Municipio</label>
+            <input type="text" class="form-control bg-secondary text-light" id="municipio" name="municipio" value="{{ datosP.municipio }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="codigo_postal">Código Postal</label>
+            <input type="text" class="form-control bg-secondary text-light" id="codigo_postal" name="codigo_postal" value="{{ datosP.codigo_postal }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="estado">Estado</label>
+            <input type="text" class="form-control bg-secondary text-light" id="estado" name="estado" value="{{ datosP.estado }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="pais">País</label>
+            <input type="text" class="form-control bg-secondary text-light" id="pais" name="pais" value="{{ datosP.pais }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="telefono_casa">Teléfono de Casa</label>
+            <input type="text" class="form-control bg-secondary text-light" id="telefono_casa" name="telefono_casa" value="{{ datosP.telefono_casa }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="telefono_movil">Teléfono Móvil</label>
+            <input type="text" class="form-control bg-secondary text-light" id="telefono_movil" name="telefono_movil" value="{{ datosP.telefono_movil }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="genero">Género</label>
+            <select class="form-control bg-secondary text-light" id="genero" name="genero">
+                <option value="H" {% if datosP.genero == 'H' %}selected{% endif %}>Hombre</option>
+                <option value="M" {% if datosP.genero == 'M' %}selected{% endif %}>Mujer</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="correo_1">Correo Electrónico Principal</label>
+            <input type="email" class="form-control bg-secondary text-light" id="correo_1" name="correo_1" value="{{ datosP.correo_1 }}">
+        </div>
+        <div class="form-group">
+            <label  class="form-label" for="correo_2">Correo Electrónico Secundario</label>
+            <input type="email" class="form-control bg-secondary text-light" id="correo_2" name="correo_2" value="{{ datosP.correo_2 }}">
+        </div>
+        <br>
+        <h3>Datos Académicos</h3>
+        <div class="form-group">
+            <label class="form-label" for="unidad_academica_actual">Unidad Académica Actual</label>
+            <input type="text" class="form-control bg-secondary text-light" id="unidad_academica_actual" name="unidad_academica_actual" value="{{ datosA.unidad_academica_actual }}">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="nom_programa_actual">Nombre del Programa Actual</label>
+            <input type="text" class="form-control bg-secondary text-light" id="nom_programa_actual" name="nom_programa_actual" value="{{ datosA.nom_programa_actual }}">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="estatus">Alumno de:</label>
+            <select class="form-control bg-secondary text-light" id="estatus" name="estatus">
+                <option value="Completo" {% if datosA.estatus == 'Completo' %}selected{% endif %}>Tiempo Completo</option>
+                <option value="Parcial" {% if datosA.estatus == 'Parcial' %}selected{% endif %}>Tiempo Parcial</option>
+            </select>
+        </div>
+        <br>
+        <button class="btn btn-primary">Siguiente</button>
+    </form>
+</div>
 {% endblock %}

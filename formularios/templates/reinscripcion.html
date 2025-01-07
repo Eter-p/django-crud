@@ -12,7 +12,7 @@
 <form action="/solicitud/reinscripcion" method="post">
     {% csrf_token %}
     <ul class="list-group">
-        {% if user.is_authenticated %}
+        {% if user.is_staff %}
             <li class="list-group-item">
                 <div class="mb-3">
                     <label for="id_solicitud">Id de la solicitud</label>
@@ -29,18 +29,33 @@
             </li>
         {% else %}
             <li class="list-group-item">
-                <h3>Datos Personales</h3>
-                {{ formDatosP.as_p }}
+                <label  class="form-label" for="correo_1">Correo Electrónico</label>
+                <input type="email" class="form-control bg-secondary text-light" id="correo_1" name="correo_1" value="{{ datosP.correo_1 }}">
             </li>
+        
             <li class="list-group-item">
-                <h3>Datos Academicos</h3>
-                {{ formDatosA.as_p }}
-            </li>
-            <li class="list-group-item">
-                <div class="mb-3">
-                    <label for="fecha">Fecha de la solicitud</label>
-                    <input type="date" name="fecha" id="fecha" class="mb-2">
+                <div class="form-group">
+                    <label class="form-label" for="boleta">Boleta</label>
+                    <input type="text" class="form-control bg-secondary text-light" id="boleta" name="boleta" value="{{ datosA.boleta }}">
                 </div>
+                <div class="form-group">
+                    <label class="form-label" for="unidad_academica_actual">Unidad Académica Actual</label>
+                    <input type="text" class="form-control bg-secondary text-light" id="unidad_academica_actual" name="unidad_academica_actual" value="{{ datosA.unidad_academica_actual }}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="nom_programa_actual">Nombre del Programa Actual</label>
+                    <input type="text" class="form-control bg-secondary text-light" id="nom_programa_actual" name="nom_programa_actual" value="{{ datosA.nom_programa_actual }}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="estatus">Alumno de:</label>
+                    <select class="form-control bg-secondary text-light" id="estatus" name="estatus">
+                        <option value="Completo" {% if datosA.estatus == 'Completo' %}selected{% endif %}>Tiempo Completo</option>
+                        <option value="Parcial" {% if datosA.estatus == 'Parcial' %}selected{% endif %}>Tiempo Parcial</option>
+                    </select>
+                </div>
+                <br>
+            </li>
+            <li class="list-group-item">
                 <div class="mb-3">
                     <label for="periodo">Periodo a cursar</label>
                     <input type="text" name="periodo" id="periodo" class="mb-2">
@@ -59,13 +74,22 @@
                         <option value="9">9</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label class="form-label" for="usuario">Nombre del asesor:</label>
+                    <select class="form-control" id="nombre_asesor" name="nombre_asesor">
+                        {% for profe in profes %}
+                            <option value="{{ profe.id }}">{{ profe.first_name }} {{ profe.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
                 <div class="mb-3">
-                    <label for="firma_alumno">Firma del alumno</label>
                     <input type="checkbox" name="firma_alumno" class="form-check-input">
+                    <label for="firma_alumno">Firma del alumno</label>
                 </div>
                 <div class="mb-3">
-                    <label for="requiere_unidad">Requiere una unidad de aprendizaje</label>
                     <input type="checkbox" name="requiere_unidad" id="requiere_unidad" class="form-check-input">
+                    <label for="requiere_unidad">Requiere una unidad de aprendizaje</label>
                 </div>
             </li>
             <li class="list-group-item" id="Seccion_Prog">

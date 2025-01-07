@@ -1,0 +1,32 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<h1>Registro y actualización de datos academicos</h1>
+<h1>{{error}}</h1>
+<div class="mb-3">
+    <form action="/actualizacion/datos/academicos" method="post" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="form-label" for="boleta">Boleta</label>
+            <input type="text" class="form-control bg-secondary text-light" id="boleta" name="boleta" value="{{ datosA.boleta }}">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="unidad_academica_actual">Unidad Académica Actual</label>
+            <input type="text" class="form-control bg-secondary text-light" id="unidad_academica_actual" name="unidad_academica_actual" value="{{ datosA.unidad_academica_actual }}">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="nom_programa_actual">Nombre del Programa Actual</label>
+            <input type="text" class="form-control bg-secondary text-light" id="nom_programa_actual" name="nom_programa_actual" value="{{ datosA.nom_programa_actual }}">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="estatus">Alumno de:</label>
+            <select class="form-control bg-secondary text-light" id="estatus" name="estatus">
+                <option value="Completo" {% if datosA.estatus == 'Completo' %}selected{% endif %}>Tiempo Completo</option>
+                <option value="Parcial" {% if datosA.estatus == 'Parcial' %}selected{% endif %}>Tiempo Parcial</option>
+            </select>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+</div>
+{% endblock %}

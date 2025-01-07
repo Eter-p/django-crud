@@ -1,0 +1,27 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<h1>FORMULARIO DE INSCRIPCIÓN</h1>
+<h1>{{error}}</h1>
+<div class="col-md-10 offset-md-1 border">
+    <a href="/formularios" class="btn btn-outline-primary"> Regresar </a>
+    <h5 class="mx-auto p-2">Formularios sin firma</h5>
+    <form action="/solicitud/inscripcion/firmas/pendiente" method="post">
+        {% csrf_token %}
+        <div class="list-group">
+            {% for solicitud in solicitudesP %}
+                <button type="submit" class="list-group-item btn btn-outline-primary text-start" name="solicitud_id" value = "{{ solicitud.id }}"> {{ solicitud }}</button>
+            {% endfor %}
+        </div>
+    </form>
+    <h5 class="mx-auto p-2">Formularios firmados</h5>
+    <form action="/solicitud/inscripcion/firmas/pendiente" method="post">
+        {% csrf_token %}
+        <div class="list-group">
+            {% for solicitud in solicitudesN %}
+                <button type="submit" class="list-group-item btn btn-outline-primary text-start" name="solicitud_id" value = "{{ solicitud.id }}"> {{ solicitud }}</button>
+            {% endfor %}
+        </div>
+    </form>
+</div>
+{% endblock %}
