@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
 from .models import *
 
+#FORMS DE ANTEDENTES ACADEMICOS --------------------------------------------------------------------------
 class FormAntecedentesAcademicos(forms.ModelForm):
     class Meta:
         model = AntecedentesAcademicos
@@ -28,7 +29,8 @@ class FormAntecedentesAcademicos(forms.ModelForm):
             "fecha_graduacion" : "Fecha de graduación (dd/mm/aaaa)"
         }
 
-class FormSolicitudInscripcion(forms.ModelForm):
+#FORMS DE SOLICITUDES DE INSCRIPCIÓN --------------------------------------------------------------------------
+class FormSolicitudInscripcionAdmin(forms.ModelForm):
     class Meta:
         model = SolicitudInscripcion
         fields = [
@@ -59,6 +61,16 @@ class FormSolicitudInscripcion(forms.ModelForm):
         self.fields['asesor'].label_from_instance = lambda obj: f"{obj.first_name} {obj.last_name}"
         self.fields['jefe'].queryset = User.objects.filter(is_staff=True)
         self.fields['jefe'].label_from_instance = lambda obj: f"{obj.first_name} {obj.last_name}"
+
+class FormSolicitudInscripcion(forms.ModelForm):
+    class Meta:
+        model = SolicitudInscripcion
+        fields = [
+            'asesor',
+            'jefe',
+            'firma_alumno',
+            'aviso_privacidad'
+        ]
 
 class FormSolicitudReinscripcion(forms.ModelForm):
     class Meta:

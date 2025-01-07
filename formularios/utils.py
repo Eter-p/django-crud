@@ -1,12 +1,13 @@
 from .forms import InscripcionAntecedentes,AntecedentesAcademicos
 from programa.models import InscripcionPrograma,ProgramaSemestral
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect
 from django.core.mail import send_mail
 from datetime import datetime
 
 form_solicitud = None
-correo = ""
 control = True
+
+
 
 def comprueba_firma(dato):
 	if dato == None:
@@ -26,16 +27,15 @@ def failure(request,tipo):
 	try:
 		opcion = request.POST.get("control")
 		if opcion == "modificar":
-			if tipo == "1":
+			if tipo == "inscripcion":
 				return redirect("inscripcion_datos")
 			if tipo == "2":
-				print("20")
 				return redirect("reinscripcion")
 		return redirect("index")
 	except Exception as error:
 		return render(request,"failure",{'falla': tipo,"error":error})
 
-def enviar_correo(id,tipo):
+def enviar_correo(id,tipo,correo):
 	asunto = tipo
 	mensaje = "Guarda este numero y entregalo a los profesores correspondientes: "+str(id)
 	destinatario = correo

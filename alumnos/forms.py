@@ -132,18 +132,18 @@ class FormDatosAcademicos(forms.ModelForm):
             "nom_programa_actual",
             "estatus"
         ]
-        widgets = {
-            "boleta" : forms.TextInput(attrs={"class": "form-control"}),
-            "unidad_academica_actual" : forms.TextInput(attrs={"class": "form-control"}),
-            "nom_programa_actual" : forms.TextInput(attrs={"class": "form-control"}),
-            "estatus" : forms.Select(attrs={"class": "form-select"})
-        }
-        labels = {
-            "boleta" : "Boleta",
-            "unidad_academica_actual" : "Unidad académica donde está cursando",
-            "nom_programa_actual" : "Nombre del programa académico que está cursando",
-            "estatus" : "Alumno de tiempo"
-        }
+        # widgets = {
+        #     "boleta" : forms.TextInput(attrs={"class": "form-control"}),
+        #     "unidad_academica_actual" : forms.TextInput(attrs={"class": "form-control"}),
+        #     "nom_programa_actual" : forms.TextInput(attrs={"class": "form-control"}),
+        #     "estatus" : forms.Select(attrs={"class": "form-select"})
+        # }
+        # labels = {
+        #     "boleta" : "Boleta",
+        #     "unidad_academica_actual" : "Unidad académica donde está cursando",
+        #     "nom_programa_actual" : "Nombre del programa académico que está cursando",
+        #     "estatus" : "Alumno de tiempo"
+        # }
 
 
 class FormDatosAcademicosIns(forms.ModelForm):
@@ -154,13 +154,13 @@ class FormDatosAcademicosIns(forms.ModelForm):
             "nom_programa_actual",
             "estatus"
         ]
-        widgets = {
-            "unidad_academica_actual" : forms.TextInput(attrs={"class": "form-control"}),
-            "nom_programa_actual" : forms.TextInput(attrs={"class": "form-control"}),
-            "estatus" : forms.Select(attrs={"class": "form-select"})
-        }
-        labels = {
-            "unidad_academica_actual": "Unidad acdemica actual",
-            "nom_programa_actual": "Nombre del programa académico que esta cursando",
-            "estatus": "Alumno de tiempo",
-        }
+        # widgets = {
+        #     "unidad_academica_actual" : forms.TextInput(attrs={"class": "form-control"}),
+        #     "nom_programa_actual" : forms.TextInput(attrs={"class": "form-control"}),
+        #     "estatus" : forms.Select(attrs={"class": "form-select"})
+        # }
+        # labels = {
+        #     "unidad_academica_actual": "Unidad acdemica actual",
+        #     "nom_programa_actual": "Nombre del programa académico que esta cursando",
+        #     "estatus": "Alumno de tiempo",
+        # }

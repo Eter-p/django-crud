@@ -20,6 +20,7 @@ from django.urls import path
 from alumnos import views as views_a
 from calendarios import views as views_c
 from formularios import views as views_f
+from formularios.utils import failure
 from programa import views as views_p
 
 urlpatterns = [
@@ -33,14 +34,14 @@ urlpatterns = [
 	path('solicitud/inscripcion/programa', views_f.inscripcion_programa,name='inscripcion_programa'),
 	path('solicitud/inscripcion/firmas', views_f.inscripcion_firmas,name='inscripcion_firmas'),
 	path('solicitud/inscripcion/firmas/pendiente', views_f.inscripcion_firmas_pendiente,name='inscripcion_firmas_pendiente'),
-	path('solicitud/reinscripcion', views_f.reinscripcion,name='reinscripcion'),
-	path('programa/individual/actividades', views_f.programa_actividades,name='programa_actividades'),
 	path('solicitud/cancelar', views_f.solicitud_cancelar,name='solicitud_cancelar'),
-	path('tesis/registro', views_f.tesis_registro,name='tesis_registro'),
-	path('tesis/revision', views_f.tesis_revision,name='tesis_revision'),
+	# path('solicitud/reinscripcion', views_f.reinscripcion,name='reinscripcion'),
+	# path('programa/individual/actividades', views_f.programa_actividades,name='programa_actividades'),
+	# path('tesis/registro', views_f.tesis_registro,name='tesis_registro'),
+	# path('tesis/revision', views_f.tesis_revision,name='tesis_revision'),
     path('logout/',views_f.signout,name='logout'),
     path('success/<str:tipo>',views_f.success,name='success'),
-    path('failure/<str:tipo>',views_f.failure,name='failure'),
+    path('failure/<str:tipo>',failure,name='failure'),
     path('superusuario/', views_f.crear_superusuario, name='crear_superusuario'),
     path('calendario/', views_c.creacion_calendario, name='creacion_calendario'),
     path('programa/', views_p.unidades_apendizaje, name='unidades_apendizaje'),
