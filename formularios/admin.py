@@ -86,7 +86,6 @@ class SolicitudReinscripcionAdmin(admin.ModelAdmin):
 
 class InscripcionAntecedentesAdmin(admin.ModelAdmin):
     list_display = ('id_solicitud_inscripcion', 'id_antecedentes')
-    # actions = [enviar_informacion]
 
 admin.site.unregister(Group)
 admin.site.unregister(User)

@@ -1,5 +1,5 @@
 from .forms import InscripcionAntecedentes,AntecedentesAcademicos
-from programa.models import InscripcionPrograma,ProgramaSemestral
+from programa.models import InscripcionPrograma,ReinscripcionPrograma,ProgramaSemestral
 from django.shortcuts import render,redirect
 from django.core.mail import send_mail
 from datetime import datetime
@@ -7,33 +7,34 @@ from datetime import datetime
 form_solicitud = None
 control = True
 
-
-
 def comprueba_firma(dato):
 	if dato == None:
 		return False
 	else:
 		return "on" in dato
 
-def fecha_mayor(fecha_solicitud, fecha_convocatoria):
+def es_antiguo(fecha_solicitud, fecha_convocatoria):
     formato = "%Y-%m-%d %H:%M:%S"
     fecha_solicitud = datetime.strptime(fecha_solicitud, formato)
     fecha_convocatoria = datetime.strptime(fecha_convocatoria, formato)
-    return fecha_solicitud > fecha_convocatoria
+    return fecha_solicitud < fecha_convocatoria
 
-def failure(request,tipo):
+def failure(request):
 	if request.method == "GET":
-		return render(request,"responseHTML/failure.html",{'tipo': tipo})
+		return render(request,"responseHTML/failure.html")
 	try:
+		tipo = request.POST.get("tipo")
 		opcion = request.POST.get("control")
 		if opcion == "modificar":
 			if tipo == "inscripcion":
 				return redirect("inscripcion_datos")
 			if tipo == "reinscripcion":
 				return redirect("reinscripcion")
+		global control
+		control = True
 		return redirect("index")
 	except Exception as error:
-		return render(request,"failure",{'falla': tipo,"error":error})
+		return render(request,"failure",{'tipo': tipo,"error":error})
 
 def enviar_correo(id,tipo,correo):
 	asunto = tipo
@@ -71,7 +72,7 @@ def informacion_inscripcion(obj):
 		'nom_programa_actual': obj.datos_academicos.nom_programa_actual,
 		'estatus': obj.datos_academicos.estatus,
 		'antecedentes': dict_antecedentes(obj.id),
-		'programa': dict_programa(obj.id),
+		'programa': dict_programa_inscripcion(obj.id),
 		'asesor': f'{obj.asesor.first_name} {obj.asesor.last_name}',
 		'firma_asesor': obj.firma_asesor,
 		'jefe': f'{obj.jefe.first_name} {obj.jefe.last_name}',
@@ -90,13 +91,13 @@ def informacion_reinscripcion(obj):
 		'apellido_materno': apellido[-1],
 		'nombre': obj.datos_personales.cuenta.first_name,
 		'boleta': obj.datos_academicos.boleta,
-		'estatus': obj.datos_academicos.estatus,
 		'unidad_academica_actual': obj.datos_academicos.unidad_academica_actual,
+		'nom_programa_actual': obj.datos_academicos.nom_programa_actual,
+		'estatus': obj.datos_academicos.estatus,
 		'periodo': obj.periodo,
 		'semestre': obj.semestre_a_cursar,
 		'requiere_unidad': obj.requiere_unidad,
-		'nom_programa_actual': obj.datos_academicos.nom_programa_actual,
-		'programa': dict_programa(obj.id),
+		'programa': dict_programa_reinscripcion(obj.id),
 		'asesor': f'{obj.asesor.first_name} {obj.asesor.last_name}',
 		'firma_asesor': obj.firma_asesor,
 		'jefe': f'{obj.jefe.first_name} {obj.jefe.last_name}',
@@ -122,8 +123,25 @@ def dict_antecedentes(id):
         contador = contador+1
     return str(antecedentes)
 
-def dict_programa(id):
+def dict_programa_inscripcion(id):
     enlaces = InscripcionPrograma.objects.filter(id_solicitud_inscripcion=id)
+    programa = []
+
+    contador = 2
+    for enlace in enlaces:        
+        materia = ProgramaSemestral.objects.get(id=enlace.id_programa_semestral.id)
+        datos_materia = {}
+        datos_materia["indice"] = contador
+        datos_materia["clave"] = materia.unidad_aprendizaje.clave
+        datos_materia["unidad_aprendizaje"] = materia.unidad_aprendizaje.unidad_aprendizaje
+        datos_materia["profesor"] = f'{materia.profesor.first_name} {materia.profesor.last_name}'
+        datos_materia["lugar_realizacion"] = materia.lugar_realizacion
+        programa.append(datos_materia)
+        contador = contador+1
+    return str(programa)
+
+def dict_programa_reinscripcion(id):
+    enlaces = ReinscripcionPrograma.objects.filter(id_solicitud_reinscripcion=id)
     programa = []
 
     contador = 2

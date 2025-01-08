@@ -1,0 +1,188 @@
+<!DOCTYPE html> <!--Documento HTML5-->
+<html lang="es">
+	<head>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+		<style>
+			.vertical-center {
+				margin: 0;
+				position: relative;
+				top: 50%;
+				-ms-transform: translateY(-50%);
+				transform: translateY(-50%);
+			}
+			.grid-container {
+				display: grid;
+				background-color: #fff;
+				gap: 0px;
+				padding: 0px;
+			}
+			
+			.titulo {background-color: #818181}
+			.label {background-color: #bebebe}
+			
+			.grid-item {background-color: #fff;font-family: Arial;border: 1px solid #000;}
+			
+			.logo {grid-column: 1;grid-row: 1 / span 3;}	
+			.sip {grid-column: 3;grid-row: 1;text-align: center;}
+			.instituto {grid-column: 2;grid-row: 1;font-size: 15;text-align: center;}
+			.secretaria {grid-column: 2;grid-row: 2;font-size: 12;text-align: center;}
+			.solicitud {grid-column: 2;grid-row: 3;font-size: 15;text-align: center;}
+			.foto {grid-column: 3;grid-row: 2;}
+			.fechalabel {grid-column: 1 / span 2  ;grid-row: 4;text-align: right;}
+			.fechain {grid-column: 3 ;grid-row: 4;text-align: center;}
+			.datos {grid-column: 1 / span 3;grid-row: 5;text-align: center;}
+
+			.nomtitulo {grid-column: 1 / 10;grid-row: 1;}
+			.apellmlabel {grid-column: 1;grid-row: 2;}	
+			.apellplabel {grid-column: 4;grid-row: 2;}
+			.nomlabel {grid-column: 7;grid-row: 2;}
+			.apellmin {grid-column: 2 / span 2;grid-row: 2;text-align: center;}
+			.apellpin {grid-column: 5 / span 2;grid-row: 2;text-align: center;}
+			.nomin {grid-column: 8 / span 2;grid-row: 2;text-align: center;}
+
+			.unidadaca {grid-column: 1;grid-row: 1;}
+			.nomprogra {grid-column: 2;grid-row: 1;}
+			.unidadacain {grid-column: 1;grid-row: 2;}
+			.nomprograin {grid-column: 2;grid-row: 2;}
+
+			.boleta {grid-column: 1;grid-row: 1;}
+			.boletain {grid-column: 2;grid-row: 1;}
+			.estatus {grid-column: 1;grid-row: 2;}
+			.estatusin {grid-column: 2;grid-row: 2;}
+			.nomprogra2 {grid-column: 1;grid-row: 3;}
+			.nomprogra2in {grid-column: 2;grid-row: 3;}
+			.unidadaca2 {grid-column: 1;grid-row: 4;}
+			.unidadaca2in {grid-column: 2;grid-row: 4;}
+			
+			.programat {grid-column: 1 / span 2;grid-row: 1;text-align: center;}
+			.semestre{grid-column: 3; grid-row: 1;}
+			.semestrein{grid-column: 4; grid-row: 1;text-align: center;}
+			.vacio {grid-column: 1 / span 4;grid-row: 2;}
+			.vacio2 {grid-column: 1 / span 2;grid-row: 3;}
+			.requiereu{grid-column: 3 ; grid-row: 3; text-align: right;}
+			.requiereuin{grid-column: 4; grid-row: 3; text-align: center;}
+
+			.clave {grid-column: 1;grid-row: 1;}
+			.actividad {grid-column: 2;grid-row: 1;}
+			.profesor {grid-column: 3;grid-row: 1;}
+			.unidad {grid-column: 4;grid-row: 1;}
+
+			.manifiesto {grid-column: 1;grid-row: 1}
+
+			.alumno {grid-column: 1;grid-row: 1;text-align: center;}
+			.asesor {grid-column: 2;grid-row: 1;text-align: center;}
+			.jefe {grid-column: 3;grid-row: 1;text-align: center;}
+			.vacio3 {grid-column: 1 / span 3;grid-row: 2;}
+			.alufirma {grid-column: 1;grid-row: 3;text-align: center;}
+			.asefirma {grid-column: 2;grid-row: 3;text-align: center;}
+			.jeffirma {grid-column: 3;grid-row: 3;text-align: center;}
+
+			
+			.vacio4 {grid-column: 3 ;grid-row: 1;}
+			.aviso {grid-column: 1 / span 3;grid-row: 2;text-align: center;}
+			.texto {grid-column: 1 / span 3;grid-row: 3;text-align: justify;}
+			.acept {grid-column: 1 / span 3;grid-row: 4;text-align: center;}
+
+			@media print{
+				.grid-container{background-color: white;border: 0px}
+				.grid-item {background-color: rgba(255, 255, 255);font-family: Arial;border: 0px;font-size: 13px}
+				.fontg{font-size: 16px}
+				.b1{border-left: 1px solid #000}
+				.b2{border-top: 1px solid #000}
+				.b3{border-bottom: 1px solid #000}
+				.b4{border-right: 1px solid #000}
+				.titulo {background-color: #818181}
+				.label {background-color: #bebebe}
+				.navbar, .footer {display: none;}
+				.ocultar{display: none}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="ocultar grid-container">
+			<input type="button" value="IMPRIMIR REPORTE" class="btn btn-info" onclick="window.print();">
+		</div>
+		<div class="grid-container">
+			<div class="grid-item logo"><img src="https://jrodp.wordpress.com/wp-content/uploads/2014/04/logoipn-negro.png" alt="LOGO" width="60"></div>
+			<div class="grid-item instituto fontg"><div class="vertical-center"><b>INSTITUTO POLITÉCNICO NACIONAL</b></div></div>
+			<div class="grid-item secretaria"><b>Secretaría de Investigación y Posgrado<br>Dirección de Posgrado</b></div>
+			<div class="grid-item solicitud fontg"><i>“SOLICITUD DE REINSCRIPCIÓN"</i></div>  
+			<div class="grid-item sip label"><b>SIP-10<br>REP 2017</b></div>
+			<div class="grid-item foto"></div>
+			<div class="grid-item fechalabel">Fecha: </div>
+			<div class="grid-item b1 b2 b3 b4 fechain">{{fecha}}</div>
+			<div class="grid-item datos fontg"><i><b><br>DATOS DEL SOLICITANTE</b></i></div>
+		</div>
+
+		<div class="grid-container">
+			<div class="grid-item b1 b2 b3 b4 titulo nomtitulo">Nombre</div>
+			<div class="grid-item b1 b3 b4 label apellmlabel"><b>Apellido<br>Paterno:</b></div>
+			<div class="grid-item b3 b4 apellmin">{{apellido_paterno}}</div>
+			<div class="grid-item b3 b4 label apellplabel"><b>Apellido<br>Materno:</b></div>  
+			<div class="grid-item b3 b4 apellpin">{{apellido_materno}}</div>
+			<div class="grid-item b3 b4 label nomlabel"><div class="vertical-center"><b>Nombre(s):</b></div></div>
+			<div class="grid-item b3 b4 nomin">{{nombre}}</div>
+		</div>
+		<br>
+		<div class="grid-container">
+			<div class="grid-item b1 b2 b3 b4 titulo unidadaca"><b>Nombre de la Unidad académica</b></div>
+			<div class="grid-item b1 b3 b4 unidadacain">{{unidad_academica_actual}}</div>
+			<div class="grid-item b2 b3 b4 titulo nomprogra"><b>Nombre del Programa Académico de Posgrado</b></div>  
+			<div class="grid-item b3 b4 nomprograin">{{nom_programa_actual}}</div>
+		</div>
+		<br>
+		<div class="grid-container">
+			<div class="grid-item boleta">Boleta: </div>
+			<div class="grid-item b1 b2 b3 b4 boletain">{{boleta}}</div>
+			<div class="grid-item estatus">Alumno de Tiempo: </div>  
+			<div class="grid-item b1 b2 b3 b4 estatusin">{{estatus}}</div>
+			<div class="grid-item nomprogra2">Programa Académico de Posgrado que ésta cursando: </div>
+			<div class="grid-item b1 b2 b3 b4 nomprogra2in">{{unidad_academica_actual}}</div>
+			<div class="grid-item unidadaca2">En la unidad académica: </div>  
+			<div class="grid-item b1 b2 b3 b4 unidadaca2in">{{nom_programa_actual}}</div>
+		</div>
+		<br>
+		<div class="grid-container">
+			<div class="grid-item fontg programat"><b><i>PROGRAMA SEMESTRAL<br></i></b></div>
+			<div class="grid-item b1 b2 b3 b4 semestre ">Reinscripción al semestre</div>
+			<div class="grid-item b1 b2 b3 b4 semestrein ">{{semestre}}</div>
+			<div class="grid-item vacio"></div>
+			<div class="grid-item vacio2"></div>
+			<div class="grid-item requiereu ">Requiere una unidad de aprendizaje</div>
+			{% if requiere_unidad %}
+				<div class="grid-item b1 b2 b3 b4 requiereuin ">SI</div>
+			{% else %}
+				<div class="grid-item b1 b2 b3 b4 requiereuin ">NO</div>
+			{% endif %}
+		</div>
+		<div class="grid-container">
+			<div class="b1 b2 b4 titulo clave"><b>Clave</b></div>
+			<div class="b1 b2 b4 titulo actividad"><b>Actividad académica (curso)</b></div>  
+			<div class="b1 b2 b4 titulo profesor"><b>Profesor</b></div>
+			<div class="b1 b2 b4 titulo unidad"><b>Unidad Academica</b></div>  
+			{% for materia in programa %}
+				<div grid-column="1" grid-row="{{ materia.indice }}" style=" background-color: #fff; font-family: Arial; border: 1px solid #000; font-size: 13px" class="b1 b2 b4">{{materia.clave}}</div>
+				<div grid-column="2" grid-row="{{ materia.indice }}" style=" background-color: #fff; font-family: Arial; border: 1px solid #000; font-size: 13px" class="b1 b2 b4">{{materia.unidad_aprendizaje}}</div>  
+				<div grid-column="3" grid-row="{{ materia.indice }}" style=" background-color: #fff; font-family: Arial; border: 1px solid #000; font-size: 13px" class="b1 b2 b4">{{materia.profesor}}</div>
+				<div grid-column="4" grid-row="{{ materia.indice }}" style=" background-color: #fff; font-family: Arial; border: 1px solid #000; font-size: 13px" class="b1 b2 b4">{{materia.lugar_realizacion}}</div>  
+			{% endfor %}
+		</div>
+		<br>
+		<br>
+		<div class="grid-container">
+			<div class="grid-item alumno "><b>Alumno</b></div>
+			<div class="grid-item asesor"><b>Asesor académico</b></div>
+			<div class="grid-item jefe"><b>Jefe(a) de la Sección o<br>Director(a) del Centro</b></div>
+			<div class="grid-item vacio3"><br></div>
+			<div class="grid-item alufirma"><div class="b3" style="margin: 10px;"><br>{{apellido_paterno}} {{apellido_materno}} {{nombre}}</div></div>
+			<div class="grid-item asefirma"><div class="b3" style="margin: 10px;"><br>{{asesor}}</div></div>
+			<div class="grid-item jeffirma"><div class="b3" style="margin: 10px;"><br>{{jefe}}</div></div>
+		</div>
+		<br>
+		<div class="grid-container">
+			<div class="grid-item vacio4"></div>
+			<div class="grid-item aviso"><br><i>Nota: Todo cambio de estatus para el semestre vigente, deberá anexar acuerdo de colegio y justificación de la misma.</i></div>
+		</div>
+		
+	</body>
+</html>

@@ -2,6 +2,8 @@
 {% block content %}
 
 <div class="row">
+    
+    
     <div>
         {% if tipo == "actualizacion" %}
             <h1 class="display-5 text-center">Ha ocurrido un error durante la actualización</h1>
@@ -12,22 +14,29 @@
             <br>
             <h5>
                 Se detectó que ya se tiene un registro de este formulario.<br>
-                ¿Desea modificar el formulario existente?<br>
+                {% if not es_antiguo %}
+                    ¿Desea modificar el formulario existente?<br>
+                {% endif %}
             </h5>
-            <form method="post">
+            <form method="post" action="/failure/">
                 {% csrf_token %}
+                <label hidden>{{ tipo }}</label>
+                <input type="hidden" name="tipo" value="{{ tipo }}">
+
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="control" value="regresar" id="flexRadioDefault1" checked>
                     <label class="form-check-label" for="flexRadioDefault1">
                         Regresar al menú principal
                     </label>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="control" value="modificar" id="flexRadioDefault2">
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        Modificar formulario existente
-                    </label>
-                </div>
+                {% if not es_antiguo %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="control" value="modificar" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Modificar formulario existente
+                        </label>
+                    </div>
+                {% endif %}
                 <br>
                 <p>
                     Nota: Tome en cuenta que al modificar el formulario se requerirá que los directores y jefe de área vuelvan a firmar el formulario si ya ha sido firmado.
@@ -65,6 +74,10 @@
                 </p>            
                 <button type="submit" class="btn btn-primary">Continuar</button>
             </form>
+        {% elif tipo == "firmas" %}
+            <h1 class="display-5 text-center">Ha ocurrido un error durante el firmado de la solicitud</h1>
+            <div class="text-center"><a href="/" class="btn btn-outline-primary"> Ir al inicio </a></div>
+            
         {% endif %}
     </div>
 </div>

@@ -12,102 +12,194 @@
 <form action="/solicitud/reinscripcion" method="post">
     {% csrf_token %}
     <ul class="list-group">
-        {% if user.is_staff %}
-            <li class="list-group-item">
-                <div class="mb-3">
-                    <label for="id_solicitud">Id de la solicitud</label>
-                    <input type="text" name="id_solicitud" id="id_solicitud" class="mb-2">
+        <li class="list-group-item">
+            {% if user.is_staff %}
+                <a href="/solicitud/reinscripcion/firmas/pendiente" class="btn btn-outline-primary"> Regresar </a>
+                {% if usuario.username == "Jefe_area" %}
+                    <button type="submit" class="btn btn-primary" {% if datos.firma_jefe %} hidden {% else %}  {% endif %}>Firmar</button>
+                {% else %}
+                    <button type="submit" class="btn btn-primary" {% if datos.firma_asesor %} hidden {% else %}  {% endif %}>Firmar</button>
+                {% endif %}
+                <div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2"><label class="form-label"><b>Fecha de registro de la solicitud (dd/mm/aaaa): </b></label></div>
+                                <div class="col-md-2"><label class="form-label"><br>{{datos.fecha}}</label></div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2"><label class="form-label"><b>Nombre: </b></label></div>
+                                <div class="col-md-2"><label class="form-label">{{datos.nombre}}</label></div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2"><label class="form-label"><b>Apellidos </b></label></div>
+                                <div class="col-md-2"><label class="form-label">{{datos.apellido_paterno}} {{datos.apellido_materno}}</label></div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2"><label class="form-label"><b>Boleta: </b></label></div>
+                                <div class="col-md-2"><label class="form-label">{{datos.boleta}}</label></div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2"><label class="form-label"><b>Unidad Académica Actual: </b></label></div>
+                                <div class="col-md-2"><label class="form-label">{{datos.unidad_academica_actual}}</label></div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2"><label class="form-label"><b>Programa Académico Actual: </b></label></div>
+                                <div class="col-md-2"><label class="form-label">{{datos.nom_programa_actual}}</label></div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2"><label class="form-label"><b>Alumno de Tiempo: </b></label></div>
+                                <div class="col-md-2"><label class="form-label">{{datos.estatus}}</label></div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2"><label class="form-label"><b>Periodo en el que se cursará: </b></label></div>
+                                <div class="col-md-2"><label class="form-label">{{datos.periodo}}</label></div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2"><label class="form-label"><b>Semestre a cursar: </b></label></div>
+                                <div class="col-md-2"><label class="form-label">{{datos.semestre}}</label></div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2"><label class="form-label"><b>PROGRAMA </b></label></div>
+                                <div class="col-md-10">
+                                    <ul class="list-group">
+                                        {% for materia in datos.programa %}
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-md-4"><b>Clave:</b></div>
+                                                <div class="col-md-4">{{materia.clave}}</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4"><b>Actividad académica (curso):</b></div>
+                                                <div class="col-md-4">{{materia.unidad_aprendizaje}}</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4"><b>Profesor:</b></div>
+                                                <div class="col-md-4">{{materia.profesor}}</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4"><b>Unidad Academica:</b></div>
+                                                <div class="col-md-4">{{materia.lugar_realizacion}}</div>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2"><label class="form-label"><b>Asesor: </b></label></div>
+                                <div class="col-md-2"><label class="form-label">{{datos.asesor}}</label></div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2"><label class="form-label"><b>Jefe de area: </b></label></div>
+                                <div class="col-md-2"><label class="form-label">{{datos.jefe}}</label></div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <div class="mb-3">
-                    <label for="firma_asesor">Firma del asesor</label>
-                    <input type="checkbox" name="firma_asesor" id="firma_asesor" class="form-check-input">
-                </div>
-                <div class="mb-3">
-                    <label for="firma_jefe">Firma del jefe de la Sección</label>
-                    <input type="checkbox" name="firma_jefe" id="firma_jefe" class="form-check-input">
-                </div>
-            </li>
-        {% else %}
-            <li class="list-group-item">
-                <label  class="form-label" for="correo_1">Correo Electrónico</label>
-                <input type="email" class="form-control bg-secondary text-light" id="correo_1" name="correo_1" value="{{ datosP.correo_1 }}">
-            </li>
-        
-            <li class="list-group-item">
-                <div class="form-group">
-                    <label class="form-label" for="boleta">Boleta</label>
-                    <input type="text" class="form-control bg-secondary text-light" id="boleta" name="boleta" value="{{ datosA.boleta }}">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="unidad_academica_actual">Unidad Académica Actual</label>
-                    <input type="text" class="form-control bg-secondary text-light" id="unidad_academica_actual" name="unidad_academica_actual" value="{{ datosA.unidad_academica_actual }}">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="nom_programa_actual">Nombre del Programa Actual</label>
-                    <input type="text" class="form-control bg-secondary text-light" id="nom_programa_actual" name="nom_programa_actual" value="{{ datosA.nom_programa_actual }}">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="estatus">Alumno de:</label>
-                    <select class="form-control bg-secondary text-light" id="estatus" name="estatus">
-                        <option value="Completo" {% if datosA.estatus == 'Completo' %}selected{% endif %}>Tiempo Completo</option>
-                        <option value="Parcial" {% if datosA.estatus == 'Parcial' %}selected{% endif %}>Tiempo Parcial</option>
-                    </select>
-                </div>
-                <br>
-            </li>
-            <li class="list-group-item">
-                <div class="mb-3">
-                    <label for="periodo">Periodo a cursar</label>
-                    <input type="text" name="periodo" id="periodo" class="mb-2">
-                </div>
-                <div class="mb-2">
-                    <label for="semestre_a_cursar">Semestre a cursar:</label>
-                    <select name="semestre_a_cursar" id="semestre_a_cursar" class="form-select">
-                        <option selected>-------------</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="usuario">Nombre del asesor:</label>
-                    <select class="form-control" id="asesor" name="asesor">
-                        {% for profe in profes %}
-                            <option value="{{ profe.id }}">{{ profe.first_name }} {{ profe.last_name }}</option>
+            {% else %}
+                <li class="list-group-item">
+                    <label  class="form-label" for="correo_1">Correo Electrónico</label>
+                    <input type="email" class="form-control bg-secondary text-light" id="correo_1" name="correo_1" value="{{ datosP.correo_1 }}">
+                </li>
+            
+                <li class="list-group-item">
+                    <div class="form-group">
+                        <label class="form-label" for="boleta">Boleta</label>
+                        <input type="text" class="form-control bg-secondary text-light" id="boleta" name="boleta" value="{{ datosA.boleta }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="unidad_academica_actual">Unidad Académica Actual</label>
+                        <input type="text" class="form-control bg-secondary text-light" id="unidad_academica_actual" name="unidad_academica_actual" value="{{ datosA.unidad_academica_actual }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="nom_programa_actual">Nombre del Programa Actual</label>
+                        <input type="text" class="form-control bg-secondary text-light" id="nom_programa_actual" name="nom_programa_actual" value="{{ datosA.nom_programa_actual }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="estatus">Alumno de:</label>
+                        <select class="form-control bg-secondary text-light" id="estatus" name="estatus">
+                            <option value="Completo" {% if datosA.estatus == 'Completo' %}selected{% endif %}>Tiempo Completo</option>
+                            <option value="Parcial" {% if datosA.estatus == 'Parcial' %}selected{% endif %}>Tiempo Parcial</option>
+                        </select>
+                    </div>
+                    <br>
+                </li>
+                <li class="list-group-item">
+                    <div class="mb-3">
+                        <label for="periodo">Periodo a cursar</label>
+                        <input type="text" name="periodo" id="periodo" class="mb-2">
+                    </div>
+                    <div class="mb-2">
+                        <label for="semestre_a_cursar">Semestre a cursar:</label>
+                        <select name="semestre_a_cursar" id="semestre_a_cursar" class="form-select">
+                            <option selected>-------------</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="usuario">Nombre del asesor:</label>
+                        <select class="form-control" id="asesor" name="asesor">
+                            {% for profe in profes %}
+                                <option value="{{ profe.id }}">{{ profe.first_name }} {{ profe.last_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <br>
+                    <div class="mb-3">
+                        <input type="checkbox" name="firma_alumno" class="form-check-input">
+                        <label for="firma_alumno">Firma del alumno</label>
+                    </div>
+                    <div class="mb-3">
+                        <input type="checkbox" name="requiere_unidad" id="requiere_unidad" class="form-check-input">
+                        <label for="requiere_unidad">Requiere una unidad de aprendizaje</label>
+                    </div>
+                </li>
+                <li class="list-group-item" id="Seccion_Prog">
+                    <h3>Programa a cursar</h3>
+                    {{ formsPrograma.management_form }}
+                    <div id="formularios prog">
+                        {% for form in formsPrograma %}
+                            <div class="formulario prog">
+                                {{ form.as_p }}
+                            </div>
                         {% endfor %}
-                    </select>
-                </div>
-                <br>
-                <div class="mb-3">
-                    <input type="checkbox" name="firma_alumno" class="form-check-input">
-                    <label for="firma_alumno">Firma del alumno</label>
-                </div>
-                <div class="mb-3">
-                    <input type="checkbox" name="requiere_unidad" id="requiere_unidad" class="form-check-input">
-                    <label for="requiere_unidad">Requiere una unidad de aprendizaje</label>
-                </div>
-            </li>
-            <li class="list-group-item" id="Seccion_Prog">
-                <h3>Programa a cursar</h3>
-                {{ formsPrograma.management_form }}
-                <div id="formularios prog">
-                    {% for form in formsPrograma %}
-                        <div class="formulario prog">
-                            {{ form.as_p }}
-                        </div>
-                    {% endfor %}
-                </div>
-                <div id='empty-form-prog' class='hidden'>{{ formsPrograma.empty_form.as_p }}</div>
-                <div><button id='agregar materia' type='button' class="btn btn-secondary">Añadir materia</button></div>
-            </li>
-        {% endif %}
+                    </div>
+                    <div id='empty-form-prog' class='hidden'>{{ formsPrograma.empty_form.as_p }}</div>
+                    <div><button id='agregar materia' type='button' class="btn btn-secondary">Añadir materia</button></div>
+                </li>
+                <button class="btn btn-primary">Guardar</button>
+            {% endif %}
+        </li>
     </ul>        
-    <button class="btn btn-primary">Guardar</button>
 </form>
 
 <script>

@@ -23,7 +23,7 @@
 					<p> Inicio de la convocatoria: {{ reinscripcion.fecha_inicio }}</p>
 					<p> Fin de la convocatoria: {{ reinscripcion.fecha_final }}</p>
 					{% if user.is_staff %}
-						<a class="list-group-item {% if reinscripcion.activo %} active {% else %} disabled {% endif %}" href="/solicitud/reinscripcion">
+						<a class="list-group-item {% if reinscripcion.activo %} active {% else %} disabled {% endif %}" href="/solicitud/reinscripcion/firmas/pendiente">
 							Solicitud de Reinscripción
 						</a>
 					{% else %}

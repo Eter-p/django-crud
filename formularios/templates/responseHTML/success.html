@@ -21,10 +21,15 @@
         <h2>Proceso de reinscripción completado</h2>
         <a href="/" class="btn btn-outline-primary"> Ir al inicio </a>
     </div>
-    {% elif tipo == "firma" %}
+    {% elif tipo == "firmaInscripcion" %}
         <div class="col-md-8 offset-md-3">
             <h2>Firma guardada</h2>
             <a href="/solicitud/inscripcion/firmas/pendiente" class="btn btn-outline-primary"> Regresar </a>
+        </div>
+    {% elif tipo == "firmaReinscripcion" %}
+        <div class="col-md-8 offset-md-3">
+            <h2>Firma guardada</h2>
+            <a href="/solicitud/reinscripcion/firmas/pendiente" class="btn btn-outline-primary"> Regresar </a>
         </div>
     {% endif %}
 </div>

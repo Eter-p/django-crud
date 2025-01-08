@@ -5,7 +5,6 @@
 <h1>{{error}}</h1>
 <form action="/solicitud/inscripcion/firmas" method="post">
     {% csrf_token %}
-    
     <ul class="list-group">
         <li class="list-group-item">
             {% if user.is_staff %}
@@ -15,7 +14,7 @@
                 {% else %}
                     <button type="submit" class="btn btn-primary" {% if datos.firma_asesor %} hidden {% else %}  {% endif %}>Firmar</button>
                 {% endif %}
-                    <div>
+                <div>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <div class="row">
